@@ -1,4 +1,2 @@
-C++ = g++ ;
-LINK = $(C++) -lboost_system-mt ;
-
-Main server : main.cpp server.cpp reply.cpp request_handler.cpp request_parser.cpp connection.cpp connection_manager.cpp ;
+SubDir TOP ;
+SubInclude TOP src ;

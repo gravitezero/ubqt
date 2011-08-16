@@ -14,7 +14,6 @@
 #include <string>
 #include <vector>
 #include <boost/asio.hpp>
-#include "header.hpp"
 
 namespace node {
 namespace server {
