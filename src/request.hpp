@@ -21,7 +21,7 @@ namespace server {
 /// A request received from a client.
 struct request
 {
-  CommandCode command;
+    CommandCode command;
 };
 
 } // namespace server

@@ -17,9 +17,9 @@ namespace server {
 
 std::vector<boost::asio::const_buffer> reply::to_buffers()
 {
-  std::vector<boost::asio::const_buffer> buffers;
-  buffers.push_back(boost::asio::buffer(content));
-  return buffers;
+    std::vector<boost::asio::const_buffer> buffers;
+    buffers.push_back(boost::asio::buffer(content));
+    return buffers;
 }
 
 } // namespace server

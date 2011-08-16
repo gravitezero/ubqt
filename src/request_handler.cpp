@@ -34,23 +34,23 @@ void request_handler::handle_request(const request& req, reply& rep)
   switch(req.command)
   {  
   case GET_TABLE:
-    rep.content.append("You asked for the table, right ?");
+    getTableHandle(req, rep);
     break;
   
   case SUBMIT_VALUE:
-    rep.content.append("I hear you, you want to submit something");
+    submitValueHandle(req, rep);
     break;
       
   case ACK_VALUE:
-    rep.content.append("Oh ... right, you received this stuff");
+    ackValueHandle(req, rep);
     break;
       
   case REQUEST_VALUE:  
-    rep.content.append("You asked for the info ... well .. I don't have it yet");
+    requestValueHandle(req, rep);
     break;
   
   case REFUSE_SUBMIT:
-    rep.content.append("What ? youtalkintome ?");
+    refuseValueHandle(req, rep);
     break;
   
   default:
@@ -59,5 +59,29 @@ void request_handler::handle_request(const request& req, reply& rep)
   }
 }
 
+void request_handler::getTableHandle(const request& req, reply& rep)
+{
+    rep.content.append("Get Table");
+}
+
+void request_handler::submitValueHandle(const request& req, reply& rep)
+{
+    rep.content.append("Submit Value");
+}
+
+void request_handler::ackValueHandle(const request& req, reply& rep)
+{
+    rep.content.append("Ack Value");
+}
+
+void request_handler::requestValueHandle(const request& req, reply& rep)
+{
+    rep.content.append("Request Value");
+}
+
+void request_handler::refuseValueHandle(const request& req, reply& rep)
+{
+    rep.content.append("Refuse Value");
+}
 } // namespace server
 } // namespace node

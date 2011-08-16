@@ -22,16 +22,23 @@ struct request;
 
 /// The common handler for all incoming requests.
 class request_handler
-  : private boost::noncopyable
+    : private boost::noncopyable
 {
 public:
-  /// Construct with a directory containing files to be served.
-  explicit request_handler();
+    /// Construct with a directory containing files to be served.
+    explicit request_handler();
 
-  /// Handle a request and produce a reply.
-  void handle_request(const request& req, reply& rep);
+    /// Handle a request and produce a reply.
+    void handle_request(const request& req, reply& rep);
 
 private:
+
+    void getTableHandle(const request& req, reply& rep);
+    void submitValueHandle(const request& req, reply& rep);
+    void ackValueHandle(const request& req, reply& rep);
+    void requestValueHandle(const request& req, reply& rep);
+    void refuseValueHandle(const request& req, reply& rep);
+
 };
 
 } // namespace server
