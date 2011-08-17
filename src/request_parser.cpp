@@ -17,6 +17,7 @@ namespace server {
 
 request_parser::request_parser()
 {
+
 }
 
 boost::tuple<boost::tribool, char*> request_parser::parse(request& req,

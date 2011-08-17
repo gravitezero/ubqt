@@ -20,7 +20,8 @@
 namespace node {
 namespace server {
 
-request_handler::request_handler()
+request_handler::request_handler(const std::string& root_path)
+    : file_provider_(root_path)
 {
 }
 

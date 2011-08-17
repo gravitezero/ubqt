@@ -13,6 +13,7 @@
 
 #include <string>
 #include <boost/noncopyable.hpp>
+#include "file_provider.hpp"
 
 namespace node {
 namespace server {
@@ -26,7 +27,7 @@ class request_handler
 {
 public:
     /// Construct with a directory containing files to be served.
-    explicit request_handler();
+    explicit request_handler(const std::string& root_path);
 
     /// Handle a request and produce a reply.
     void handle_request(const request& req, reply& rep);
@@ -38,6 +39,10 @@ private:
     void ackValueHandle(const request& req, reply& rep);
     void requestValueHandle(const request& req, reply& rep);
     void refuseValueHandle(const request& req, reply& rep);
+    
+    // TODO Add here some others request handler like add a listener, remove a listener etc...
+
+    file_provider file_provider_;
 
 };
 
