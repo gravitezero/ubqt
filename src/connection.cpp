@@ -84,16 +84,16 @@ void connection::handle_read(const boost::system::error_code& e,
 
 void connection::handle_write(const boost::system::error_code& e)
 {
-    /*if (request_handler_.stillData())
+    if (reply_.still_data)
     {
-        request_handler_.handle_request(request_, reply_);
+        //request_handler_.handle_request(request_, reply_);
         
         boost::asio::async_write(socket_, reply_.to_buffers(),
             boost::bind(&connection::handle_write, shared_from_this(),
                 boost::asio::placeholders::error));
                 
         return;
-    }   */ 
+    }
 
     if (!e)
     {
