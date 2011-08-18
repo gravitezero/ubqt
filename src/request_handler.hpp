@@ -15,11 +15,13 @@
 #include <boost/noncopyable.hpp>
 #include "file_provider.hpp"
 #include "request.hpp"
+#include "reply.hpp"
 
 namespace node {
 namespace server {
 
-struct reply;
+//struct reply;
+//class reply;
 struct request;
 
 /// The common handler for all incoming requests.
@@ -49,7 +51,7 @@ private:
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
     /// Point to the request to send.
-    request& request_;
+    //request& request_;
     
     /// Provide an access to the files to send.
     file_provider file_provider_;

@@ -26,9 +26,10 @@ class server
     : private boost::noncopyable
 {
 public:
-    /// Construct the server to listen on the specified TCP address and port, and
-    /// serve up files from the given directory.
-    explicit server(const std::string& address, const std::string& port, const std::string& root_path);
+    /// Construct the server to listen on the specified TCP address and port,
+    /// and serve up files from the given directory.
+    explicit server(const std::string& address, const std::string& port,
+        const std::string& root_path);
 
     /// Run the server's io_service loop.
     void run();
@@ -46,7 +47,7 @@ private:
     /// The io_service used to perform asynchronous operations.
     boost::asio::io_service io_service_;
 
-    /// The signal_set is used to register for process termination notifications.
+    /// The signal_set is used to register for process termination notifications
     //boost::asio::signal_set signals_;
 
     /// Acceptor used to listen for incoming connections.

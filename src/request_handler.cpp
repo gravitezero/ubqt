@@ -84,8 +84,9 @@ void request_handler::ackValueHandle(const request& req, reply& rep)
 void request_handler::requestValueHandle(const request& req, reply& rep)
 {
     //rep.content.append("Request Value");
+    //file_provider_.getFile("reply.hpp", rep.content&);
     
-    file_provider_.getFile("reply.hpp", rep.content&);
+    rep.set_file("protocole.hpp");
 }
 
 void request_handler::refuseValueHandle(const request& req, reply& rep)

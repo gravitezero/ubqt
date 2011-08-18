@@ -54,8 +54,7 @@ void connection::handle_read(const boost::system::error_code& e,
 
     if (result)
     {
-        request_handler_.setRequest(request_);
-        request_handler_.getReply(reply_);
+        request_handler_.handle_request(request_, reply_);
         boost::asio::async_write(socket_, reply_.to_buffers(),
             boost::bind(&connection::handle_write, shared_from_this(),
                 boost::asio::placeholders::error));

@@ -13,13 +13,14 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 #include <boost/asio.hpp>
 
 namespace node {
 namespace server {
 
 /// A reply to be sent to a client.
-struct reply
+/*struct reply
 {
 
     /// The content to be sent in the reply.
@@ -29,6 +30,23 @@ struct reply
     /// underlying memory blocks, therefore the reply object must remain valid and
     /// not be changed until the write operation has completed.
     std::vector<boost::asio::const_buffer> to_buffers();
+};*/
+
+// TODO Do it templated
+class reply
+{
+public:
+    reply();
+    std::vector<boost::asio::const_buffer> to_buffers();
+    void set_file(std::string filename);
+    
+    bool still_data;
+    std::string content;
+    
+private:
+    //std::string content;
+    std::ifstream file_;
+
 };
 
 } // namespace server
