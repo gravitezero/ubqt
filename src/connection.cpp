@@ -54,7 +54,8 @@ void connection::handle_read(const boost::system::error_code& e,
 
     if (result)
     {
-        request_handler_.handle_request(request_, reply_);
+        request_handler_.setRequest(request_);
+        request_handler_.getReply(reply_);
         boost::asio::async_write(socket_, reply_.to_buffers(),
             boost::bind(&connection::handle_write, shared_from_this(),
                 boost::asio::placeholders::error));
@@ -84,6 +85,17 @@ void connection::handle_read(const boost::system::error_code& e,
 
 void connection::handle_write(const boost::system::error_code& e)
 {
+    /*if (request_handler_.stillData())
+    {
+        request_handler_.handle_request(request_, reply_);
+        
+        boost::asio::async_write(socket_, reply_.to_buffers(),
+            boost::bind(&connection::handle_write, shared_from_this(),
+                boost::asio::placeholders::error));
+                
+        return;
+    }   */ 
+
     if (!e)
     {
         // Initiate graceful connection closure.

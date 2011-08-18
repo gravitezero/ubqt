@@ -30,8 +30,6 @@ void request_handler::handle_request(const request& req, reply& rep)
 
     // TODO Ici, un switch case pour traiter toutes les requetes
   
-  std::cout << req.command << std::endl;
-  
   switch(req.command)
   {  
   case GET_TABLE:
@@ -62,7 +60,15 @@ void request_handler::handle_request(const request& req, reply& rep)
 
 void request_handler::getTableHandle(const request& req, reply& rep)
 {
-    rep.content.append("Get Table");
+    //rep.content.append("Get Table");
+    std::vector<std::string> files = file_provider_.getListFile();
+    std::vector<std::string>::iterator iter;
+    
+    for(iter = files.begin() ; iter != files.end() ; iter++)
+    {
+        rep.content.append(*iter);
+        rep.content.append("\n");
+    }
 }
 
 void request_handler::submitValueHandle(const request& req, reply& rep)
@@ -77,7 +83,9 @@ void request_handler::ackValueHandle(const request& req, reply& rep)
 
 void request_handler::requestValueHandle(const request& req, reply& rep)
 {
-    rep.content.append("Request Value");
+    //rep.content.append("Request Value");
+    
+    file_provider_.getFile("reply.hpp", rep.content&);
 }
 
 void request_handler::refuseValueHandle(const request& req, reply& rep)
