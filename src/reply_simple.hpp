@@ -24,7 +24,7 @@ namespace server {
 class reply_simple : public abstract_reply
 {
 public:
-    reply_simple();
+    reply_simple(std::string content);
 
     std::vector<boost::asio::const_buffer> to_buffers();
     void set_content(std::string content); // TODO ICI template, une seule methode set_info pour faire pointer la reply vers ressource que tu veux envoyer.

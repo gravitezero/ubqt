@@ -15,7 +15,7 @@
 #include <boost/noncopyable.hpp>
 #include "file_provider.hpp"
 #include "request.hpp"
-#include "reply.hpp"
+#include "abstract_reply.hpp"
 
 namespace node {
 namespace server {
@@ -32,7 +32,7 @@ public:
     /// Construct with a directory containing files to be served.
     explicit request_handler(const std::string& root_path);
 
-    void handle_request(const request& req, reply& rep);
+    boost::shared_ptr<abstract_reply> handle_request(const request& req);
 
     /// get the reference to the request for further access.
     //void setRequest(const request& req);
@@ -42,11 +42,11 @@ public:
 
 private:
 
-    void getTableHandle(const request& req, reply& rep);
-    void submitValueHandle(const request& req, reply& rep);
-    void ackValueHandle(const request& req, reply& rep);
-    void requestValueHandle(const request& req, reply& rep);
-    void refuseValueHandle(const request& req, reply& rep);
+    //void getTableHandle(const request& req, reply& rep);
+    //void submitValueHandle(const request& req, reply& rep);
+    //void ackValueHandle(const request& req, reply& rep);
+    boost::shared_ptr<abstract_reply> requestValueHandle(const request& req);
+    //void refuseValueHandle(const request& req, reply& rep);
     
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
@@ -54,7 +54,7 @@ private:
     //request& request_;
     
     /// Provide an access to the files to send.
-    file_provider file_provider_;
+    //file_provider file_provider_;
 
 };
 

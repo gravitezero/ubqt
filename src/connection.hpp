@@ -16,7 +16,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include "reply.hpp"
+#include "abstract_reply.hpp"
 #include "request.hpp"
 #include "request_handler.hpp"
 #include "request_parser.hpp"
@@ -72,7 +72,7 @@ private:
     request_parser request_parser_;
 
     /// The reply to be sent back to the client.
-    reply reply_;
+    boost::shared_ptr<abstract_reply> reply_;
 };
 
 typedef boost::shared_ptr<connection> connection_ptr;

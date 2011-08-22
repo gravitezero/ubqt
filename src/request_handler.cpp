@@ -21,17 +21,18 @@ namespace node {
 namespace server {
 
 request_handler::request_handler(const std::string& root_path)
-    : file_provider_(root_path)
+//    : file_provider_(root_path)
 {
 }
 
-void request_handler::handle_request(const request& req, reply& rep)
+boost::shared_ptr<abstract_reply> request_handler::handle_request(const request& req)
 { 
 
-    // TODO Ici, un switch case pour traiter toutes les requetes
+    // TODO Ici, check le meta switch
   
   switch(req.command)
   {  
+  /*
   case GET_TABLE:
     getTableHandle(req, rep);
     break;
@@ -43,21 +44,20 @@ void request_handler::handle_request(const request& req, reply& rep)
   case ACK_VALUE:
     ackValueHandle(req, rep);
     break;
-      
+    */  
   case REQUEST_VALUE:  
-    requestValueHandle(req, rep);
-    break;
-  
+    return requestValueHandle(req);
+  /*
   case REFUSE_SUBMIT:
     refuseValueHandle(req, rep);
     break;
-  
-  default:
-    rep.content.append("BAD COMMAND REQUEST");
+  */
+  //default:
+    //rep.content.append("BAD COMMAND REQUEST");
   
   }
 }
-
+/*
 void request_handler::getTableHandle(const request& req, reply& rep)
 {
     //rep.content.append("Get Table");
@@ -79,19 +79,19 @@ void request_handler::submitValueHandle(const request& req, reply& rep)
 void request_handler::ackValueHandle(const request& req, reply& rep)
 {
     rep.content.append("Ack Value");
-}
+}*/
 
-void request_handler::requestValueHandle(const request& req, reply& rep)
+boost::shared_ptr<abstract_reply> request_handler::requestValueHandle(const request& req)
 {
     //rep.content.append("Request Value");
     //file_provider_.getFile("reply.hpp", rep.content&);
-    
-    rep.set_file("protocole.hpp");
+    return abstract_reply::create("protocole.hpp");
+    //rep.set_file("protocole.hpp");
 }
 
-void request_handler::refuseValueHandle(const request& req, reply& rep)
+/*void request_handler::refuseValueHandle(const request& req, reply& rep)
 {
     rep.content.append("Refuse Value");
-}
+}*/
 } // namespace server
 } // namespace node

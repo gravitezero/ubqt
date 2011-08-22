@@ -15,8 +15,9 @@
 namespace node {
 namespace server {
 
-reply_simple::reply_simple()
-    : abstract_reply()
+reply_simple::reply_simple(std::string content)
+    : abstract_reply(),
+      content(content)
 {
 }
 

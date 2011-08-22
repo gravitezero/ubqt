@@ -2,7 +2,7 @@
 // abstract_reply.hpp
 // ~~~~~~~~~
 //
-// Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2011 Etienne Brodu (etienne dot brodu at insa-lyon dot fr)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,7 +25,8 @@ class abstract_reply
 public:
     //reply(); // TODO see up : Do it template ?
     virtual std::vector<boost::asio::const_buffer> to_buffers() = 0;
-    static abstract_reply* create();
+    virtual void set_content(std::string content) = 0;
+    static boost::shared_ptr<abstract_reply> create(std::string content);
     
     bool still_data;
 

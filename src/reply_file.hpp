@@ -24,12 +24,12 @@ namespace server {
 class reply_file : public abstract_reply
 {
 public:
-    reply_file();
+    reply_file(std::string content);
 
     std::vector<boost::asio::const_buffer> to_buffers();
-    void set_file(std::string filename);
+    void set_content(std::string filename);
     
-private:    
+private:
     std::ifstream file_;
         
         

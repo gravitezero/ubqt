@@ -17,15 +17,16 @@
 namespace node {
 namespace server {
 
-reply_file::reply_file()
-    : abstract_reply()
+reply_file::reply_file(std::string content)
+    : abstract_reply(),
+      file_(content.c_str(), std::ios::in | std::ios::binary)
 {
 }
 
-void reply_file::set_file(std::string filename)
+void reply_file::set_content(std::string content)
 {
     if( !file_.is_open() )
-        file_.open(filename.c_str(), std::ios::in | std::ios::binary);
+        file_.open(content.c_str(), std::ios::in | std::ios::binary);
 }
 
 std::vector<boost::asio::const_buffer> reply_file::to_buffers()
