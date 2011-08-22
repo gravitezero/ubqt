@@ -42,11 +42,11 @@ public:
 
 private:
 
-    //void getTableHandle(const request& req, reply& rep);
-    //void submitValueHandle(const request& req, reply& rep);
-    //void ackValueHandle(const request& req, reply& rep);
+    boost::shared_ptr<abstract_reply> getTableHandle(const request& req);
+    boost::shared_ptr<abstract_reply> submitValueHandle(const request& req);
+    boost::shared_ptr<abstract_reply> ackValueHandle(const request& req);
     boost::shared_ptr<abstract_reply> requestValueHandle(const request& req);
-    //void refuseValueHandle(const request& req, reply& rep);
+    boost::shared_ptr<abstract_reply> refuseValueHandle(const request& req);
     
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
@@ -54,7 +54,7 @@ private:
     //request& request_;
     
     /// Provide an access to the files to send.
-    //file_provider file_provider_;
+    file_provider file_provider_;
 
 };
 

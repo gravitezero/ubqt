@@ -21,7 +21,7 @@ namespace node {
 namespace server {
 
 request_handler::request_handler(const std::string& root_path)
-//    : file_provider_(root_path)
+    : file_provider_(root_path)
 {
 }
 
@@ -32,66 +32,60 @@ boost::shared_ptr<abstract_reply> request_handler::handle_request(const request&
   
   switch(req.command)
   {  
-  /*
   case GET_TABLE:
-    getTableHandle(req, rep);
-    break;
+    return getTableHandle(req);
   
   case SUBMIT_VALUE:
-    submitValueHandle(req, rep);
-    break;
+    return submitValueHandle(req);
       
   case ACK_VALUE:
-    ackValueHandle(req, rep);
-    break;
-    */  
+    return ackValueHandle(req);
+
   case REQUEST_VALUE:  
     return requestValueHandle(req);
-  /*
+
   case REFUSE_SUBMIT:
-    refuseValueHandle(req, rep);
-    break;
-  */
-  //default:
-    //rep.content.append("BAD COMMAND REQUEST");
+    return refuseValueHandle(req);
+
+  default:
+    return abstract_reply::create("BAD COMMAND REQUEST");
   
   }
 }
-/*
-void request_handler::getTableHandle(const request& req, reply& rep)
+
+boost::shared_ptr<abstract_reply> request_handler::getTableHandle(const request& req)
 {
-    //rep.content.append("Get Table");
+    std::string files_name;
     std::vector<std::string> files = file_provider_.getListFile();
     std::vector<std::string>::iterator iter;
     
     for(iter = files.begin() ; iter != files.end() ; iter++)
     {
-        rep.content.append(*iter);
-        rep.content.append("\n");
+        files_name.append(*iter);
+        files_name.append("\n");
     }
+    
+    return abstract_reply::create(files_name);
 }
 
-void request_handler::submitValueHandle(const request& req, reply& rep)
+boost::shared_ptr<abstract_reply> request_handler::submitValueHandle(const request& rep)
 {
-    rep.content.append("Submit Value");
+    return abstract_reply::create("Submit Value");
 }
 
-void request_handler::ackValueHandle(const request& req, reply& rep)
+boost::shared_ptr<abstract_reply> request_handler::ackValueHandle(const request& req)
 {
-    rep.content.append("Ack Value");
-}*/
+    return abstract_reply::create("Ack Value");
+}
 
 boost::shared_ptr<abstract_reply> request_handler::requestValueHandle(const request& req)
 {
-    //rep.content.append("Request Value");
-    //file_provider_.getFile("reply.hpp", rep.content&);
     return abstract_reply::create("protocole.hpp");
-    //rep.set_file("protocole.hpp");
 }
 
-/*void request_handler::refuseValueHandle(const request& req, reply& rep)
+boost::shared_ptr<abstract_reply> request_handler::refuseValueHandle(const request& req)
 {
-    rep.content.append("Refuse Value");
-}*/
+    return abstract_reply::create("Refuse Value");
+}
 } // namespace server
 } // namespace node
