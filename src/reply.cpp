@@ -50,7 +50,7 @@ std::vector<boost::asio::const_buffer> reply::to_buffers()
         // DONC ON EST DANS LA MERDE !! Cela dit, si on change d'un vecteur de buffer vers un buffer simple, ou un vecteur simple, on aura plus se probleme, je pense, j'èspère ...
     } else {
         buffers.push_back(boost::asio::buffer(content));
-        still_date = false;
+        still_data = false;
     }
     return buffers;
 }
