@@ -8,13 +8,12 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "request_handler.hpp"
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <iostream>
 #include <boost/lexical_cast.hpp>
-#include "reply.hpp"
+#include "request_handler.hpp"
 #include "request.hpp"
 
 namespace node {
@@ -25,7 +24,7 @@ request_handler::request_handler(const std::string& root_path)
 {
 }
 
-boost::shared_ptr<abstract_reply> request_handler::handle_request(const request& req)
+abstract_reply_ptr request_handler::handle_request(const request& req)
 { 
 
     // TODO Ici, check le meta switch
@@ -53,7 +52,7 @@ boost::shared_ptr<abstract_reply> request_handler::handle_request(const request&
   }
 }
 
-boost::shared_ptr<abstract_reply> request_handler::getTableHandle(const request& req)
+abstract_reply_ptr request_handler::getTableHandle(const request& req)
 {
     std::string files_name;
     std::vector<std::string> files = file_provider_.getListFile();
@@ -68,22 +67,22 @@ boost::shared_ptr<abstract_reply> request_handler::getTableHandle(const request&
     return abstract_reply::create(files_name);
 }
 
-boost::shared_ptr<abstract_reply> request_handler::submitValueHandle(const request& rep)
+abstract_reply_ptr request_handler::submitValueHandle(const request& rep)
 {
     return abstract_reply::create("Submit Value");
 }
 
-boost::shared_ptr<abstract_reply> request_handler::ackValueHandle(const request& req)
+abstract_reply_ptr request_handler::ackValueHandle(const request& req)
 {
     return abstract_reply::create("Ack Value");
 }
 
-boost::shared_ptr<abstract_reply> request_handler::requestValueHandle(const request& req)
+abstract_reply_ptr request_handler::requestValueHandle(const request& req)
 {
     return abstract_reply::create("protocole.hpp");
 }
 
-boost::shared_ptr<abstract_reply> request_handler::refuseValueHandle(const request& req)
+abstract_reply_ptr request_handler::refuseValueHandle(const request& req)
 {
     return abstract_reply::create("Refuse Value");
 }

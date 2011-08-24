@@ -60,7 +60,7 @@ void connection::handle_read(const boost::system::error_code& e,
                     boost::asio::placeholders::error));
         }
 
-        // TODO
+        // TODO prendre en charge les erreurs
         /*else if (!result)
         {
             reply_ = reply::stock_reply(reply::bad_request);

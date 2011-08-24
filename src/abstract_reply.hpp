@@ -19,20 +19,21 @@
 namespace node {
 namespace server {
 
-// TODO Do it templated
+class abstract_reply;
+typedef boost::shared_ptr<abstract_reply> abstract_reply_ptr;
+
 class abstract_reply
 {
 public:
-    //reply(); // TODO see up : Do it template ?
     virtual std::vector<boost::asio::const_buffer> to_buffers() = 0;
-    virtual void set_content(std::string content) = 0;
-    static boost::shared_ptr<abstract_reply> create(std::string content);
+    virtual void set_content(std::string content) = 0; //TODO remplacer std::string par un pointeur vers l'information
+    static abstract_reply_ptr create(std::string content);
     
     bool still_data;
 
 protected:
 
-    abstract_reply(); // To keep it abstract, I think ... TODO check this
+    abstract_reply();
 
 };
 

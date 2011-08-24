@@ -28,18 +28,15 @@ public:
     request_parser();
 
     /// Reset to initial parser state.
-    void reset();
+    //void reset();
 
-    /// Parse some data. The tribool return value is true when a complete request
+    /// Parse the request. The tribool return value is true when a complete request
     /// has been parsed, false if the data is invalid, indeterminate when more
     /// data is required. The InputIterator return value indicates how much of the
     /// input has been consumed.
 
     boost::tuple<boost::tribool, char*> parse(request& req,
         char* begin, char* end);
-
-    // TODO k, pour l'instant, tête de bite, c'est un workaround de gobelin.
-    // Plus tard, ICI, il y'auras une fonction de parse qui poutre du poney.
 
 private:
 

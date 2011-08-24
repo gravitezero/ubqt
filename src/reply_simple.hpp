@@ -27,7 +27,7 @@ public:
     reply_simple(std::string content);
 
     std::vector<boost::asio::const_buffer> to_buffers();
-    void set_content(std::string content); // TODO ICI template, une seule methode set_info pour faire pointer la reply vers ressource que tu veux envoyer.
+    void set_content(std::string content);
     
 private:
     std::string content;

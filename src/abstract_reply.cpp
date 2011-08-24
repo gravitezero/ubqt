@@ -17,9 +17,9 @@
 namespace node {
 namespace server {
 
-boost::shared_ptr<abstract_reply> abstract_reply::create(std::string content)
+abstract_reply_ptr abstract_reply::create(std::string content)
 {
-    return boost::shared_ptr<abstract_reply>(new reply_file(content));
+    return abstract_reply_ptr(new reply_file(content));
 }
 
 abstract_reply::abstract_reply()

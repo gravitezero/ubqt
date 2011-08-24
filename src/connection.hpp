@@ -72,7 +72,7 @@ private:
     request_parser request_parser_;
 
     /// The reply to be sent back to the client.
-    boost::shared_ptr<abstract_reply> reply_;
+    abstract_reply_ptr reply_;
 };
 
 typedef boost::shared_ptr<connection> connection_ptr;
