@@ -91,11 +91,10 @@ abstract_reply_ptr request_handler::submitValueHandle(const request& rep)
     // Merge the old value, with the new one.
     ++information;
 
-    //for each( std::pair<std::string, std::string> listener in listeners )
-    {
-        // send new value to listener
-        // TODO here we have to make a new connection for handeling the connection with the listener.
+    for(std::vector<std::pair<std::string, std::string> >::iterator listener = listeners.begin(); listener != listeners.end(); ++listener) {
+        /* std::cout << *listener; ... */
     }
+
     
     // Ack the new value.
     return abstract_reply::create("Submited Value");
@@ -119,7 +118,7 @@ abstract_reply_ptr request_handler::refuseValueHandle(const request& req)
 abstract_reply_ptr request_handler::registerListener(const request& req)
 {
     // Let's say e have a handler for information, here we would actually register the listener in the database.
-    //TODO listeners.push_back(new std::pair("localhost","81"));
+    listeners.push_back(std::make_pair("localhost", "81"));
     
     return abstract_reply::create("Register Listener");
 }
