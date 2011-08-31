@@ -19,6 +19,9 @@
 namespace node {
 namespace server {
 
+std::vector<std::pair<std::string, std::string> > listeners;
+int information = 0;
+
 request_handler::request_handler(const std::string& root_path)
     : file_provider_(root_path)
 {
@@ -45,6 +48,9 @@ abstract_reply_ptr request_handler::handle_request(const request& req)
 
   case REFUSE_SUBMIT:
     return refuseValueHandle(req);
+    
+  case REGISTER_LISTENER:
+    return registerListener(req);
 
   default:
     return abstract_reply::create("BAD COMMAND REQUEST");
@@ -69,7 +75,30 @@ abstract_reply_ptr request_handler::getTableHandle(const request& req)
 
 abstract_reply_ptr request_handler::submitValueHandle(const request& rep)
 {
-    return abstract_reply::create("Submit Value");
+    /// here we should submit the value :
+    /// 
+    /// it means :  Merge the old value with the new one.
+    ///             Ack the new value.
+    ///             gathering all listeners to send them the new value.
+    ///             keep the modifictation in the history for later listeners
+    ///             keep the top version for each listener, to send later modification.
+
+    // TODO the handler for the information.
+    // TODO the client side library.
+    
+    /// Now I'm going to implement this here, but I will move it to the new information handler later.
+    
+    // Merge the old value, with the new one.
+    ++information;
+
+    //for each( std::pair<std::string, std::string> listener in listeners )
+    {
+        // send new value to listener
+        // TODO here we have to make a new connection for handeling the connection with the listener.
+    }
+    
+    // Ack the new value.
+    return abstract_reply::create("Submited Value");
 }
 
 abstract_reply_ptr request_handler::ackValueHandle(const request& req)
@@ -85,6 +114,14 @@ abstract_reply_ptr request_handler::requestValueHandle(const request& req)
 abstract_reply_ptr request_handler::refuseValueHandle(const request& req)
 {
     return abstract_reply::create("Refuse Value");
+}
+
+abstract_reply_ptr request_handler::registerListener(const request& req)
+{
+    // Let's say e have a handler for information, here we would actually register the listener in the database.
+    //TODO listeners.push_back(new std::pair("localhost","81"));
+    
+    return abstract_reply::create("Register Listener");
 }
 } // namespace server
 } // namespace node

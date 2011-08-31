@@ -16,7 +16,8 @@ enum CommandCode {
     SUBMIT_VALUE,
     ACK_VALUE,
     REQUEST_VALUE,
-    REFUSE_SUBMIT
+    REFUSE_SUBMIT,
+    REGISTER_LISTENER
 };
 
 /*class node {

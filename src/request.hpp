@@ -22,6 +22,7 @@ namespace server {
 struct request
 {
     CommandCode command;
+    std::string value;
 };
 
 } // namespace server

@@ -41,7 +41,7 @@ private:
     abstract_reply_ptr ackValueHandle(const request& req);
     abstract_reply_ptr requestValueHandle(const request& req);
     abstract_reply_ptr refuseValueHandle(const request& req);
-    
+    abstract_reply_ptr registerListener(const request& req);
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
     /// Point to the request to send.
