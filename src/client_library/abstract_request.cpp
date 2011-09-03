@@ -1,5 +1,5 @@
 //
-// abstract_request.cpp
+// request.cpp
 // ~~~~~~~~~
 //
 // Copyright (c) 2011 Etienne Brodu (etienne dot brodu at insa-lyon dot fr)

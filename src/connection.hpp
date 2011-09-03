@@ -41,6 +41,9 @@ public:
 
     /// Start the first asynchronous operation for the connection.
     void start();
+    
+    /// Start the first asynchronous operation for the connection.
+    void send_request(request req);    
 
     /// Stop all asynchronous operations associated with the connection.
     void stop();

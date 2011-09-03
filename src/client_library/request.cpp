@@ -1,5 +1,5 @@
 //
-// reply.hpp
+// request.cpp
 // ~~~~~~~~~
 //
 // Copyright (c) 2011 Etienne Brodu (etienne dot brodu at insa-lyon dot fr)
@@ -8,28 +8,31 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef ABSTRACT_REQUEST_HPP
-#define ABSTRACT_REQUEST_HPP
-
 #include <string>
-#include <vector>
-#include <fstream>
-#include <boost/asio.hpp>
+
+#include "request.hpp"
 
 namespace node {
 namespace server {
 
-class abstract_request
+request::request()
 {
-public:
 
-protected:
+}
 
-    abstract_request();
 
-};
+request::setRequestType(CommandCode code){
+
+    //TODO Change the protocol to differentiate request and reply code.
+
+    if(code == GET_TABLE
+    || code == SUBMIT_VALUE
+    || code == REQUEST_VALUE
+    || code == REGISTER_LISTENER)
+    {
+        this.code = code;
+    }
+}
 
 } // namespace server
 } // namespace node
-
-#endif // ABSTRACT_REQUEST_HPP
