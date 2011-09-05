@@ -9,11 +9,11 @@
 //
 
 #include "events_service.hpp"
-#include <boost/bind.hpp>
+//#include <boost/bind.hpp>
 //#include <signal.h>
 
 namespace node {
-namespace server {
+namespace events_service {
 
 server::server(const std::string& address, const std::string& port, const std::string& root_path)
     : io_service_(),

@@ -28,6 +28,7 @@ public:
     // Let's do something really good with some boost::bind
     int add_link(link_id id, map<event, functions>);
     
+    // a link is actually a connection, so let's reuse this old class
     int remove_link(link_id id);
     
     // when an event is thrown, the events_service will call the associated function.
