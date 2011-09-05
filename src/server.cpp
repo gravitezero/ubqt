@@ -89,5 +89,13 @@ void server::handle_stop()
     connection_manager_.stop_all();
 }
 
+void server::add_connection(connection_ptr connection)
+{
+    // Here we want this connection start by sending something.
+    // This new connection will herit from the legacy connection.
+    // The legacy connection start by reading, this new connection will start by sending.
+    connection_manager_.start(connection);
+}
+
 } // namespace server
 } // namespace node

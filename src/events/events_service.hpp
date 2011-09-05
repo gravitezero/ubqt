@@ -37,7 +37,7 @@ public:
 private:
     
     std::queue<event> events;
-    std::vector<link> links;
+    std::vector<link> links; // TODO remplacer avec une hash map, genre MEGA efficace.
     
 };
 
