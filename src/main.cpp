@@ -12,6 +12,7 @@
 #include <string>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <boost/thread.hpp>
 #include "server.hpp"
 
 int main(int argc, char* argv[])
@@ -29,15 +30,25 @@ int main(int argc, char* argv[])
                 return 1;
             }
 
-            // Initialise the server.
-            node::server::server s(argv[1], argv[2], argv[3]);
+        // Initialise the server.
+        node::server::server s(argv[1], argv[2], argv[3]);
 
-            // Run the server until stopped.
-            s.run();
-            }
-                catch (std::exception& e)
-            {
-            std::cerr << "exception: " << e.what() << "\n";
+        // Run the server
+        s.run();
+        
+        std::cout << "do whatever you want now" << std::endl;
+        
+        sleep(3);
+       
+        s.add_connection(new connection(io_service_, connection_manager_, request_handler_));
+        
+        
+        s.join();
+
+    }
+        catch (std::exception& e)
+    {
+    std::cerr << "exception: " << e.what() << "\n";
     }
 
     return 0;

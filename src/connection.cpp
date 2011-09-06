@@ -40,10 +40,10 @@ void connection::start()
 
 void connection::send_request(request req)
 {
-    request_ 
+    /*request_ 
     boost::asio::async_write(socket_, reply_->to_buffers(),
         boost::bind(&connection::handle_write, shared_from_this(),
-            boost::asio::placeholders::error));
+            boost::asio::placeholders::error)); */
 }
 
 void connection::stop()

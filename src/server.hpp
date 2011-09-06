@@ -11,9 +11,11 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include <boost/asio.hpp>
 #include <string>
+#include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/thread.hpp> 
+
 #include "connection.hpp"
 #include "connection_manager.hpp"
 #include "request_handler.hpp"
@@ -33,6 +35,8 @@ public:
 
     /// Run the server's io_service loop.
     void run();
+    
+    void join();
 
 private:
     /// Initiate an asynchronous accept operation.
@@ -48,7 +52,7 @@ private:
     boost::asio::io_service io_service_;
 
     /// The signal_set is used to register for process termination notifications
-    //boost::asio::signal_set signals_;
+    boost::asio::signal_set signals_;
 
     /// Acceptor used to listen for incoming connections.
     boost::asio::ip::tcp::acceptor acceptor_;
@@ -61,6 +65,10 @@ private:
 
     /// The handler for all incoming requests.
     request_handler request_handler_;
+    
+    void add_connection(connection_ptr connection);
+    
+    boost::thread worker;
 };
 
 } // namespace server
