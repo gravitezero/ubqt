@@ -21,7 +21,8 @@
 namespace node {
 namespace server {
 
-class reply_file : public abstract_reply
+class reply_file
+    : public abstract_reply
 {
 public:
     reply_file(std::string content);

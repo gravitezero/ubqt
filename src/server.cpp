@@ -63,7 +63,7 @@ void server::join()
 
 void server::start_accept()
 {
-    new_connection_.reset(new connection(io_service_,
+    new_connection_.reset(new input_connection(io_service_,
         connection_manager_, request_handler_));
     acceptor_.async_accept(new_connection_->socket(),
         boost::bind(&server::handle_accept, this,

@@ -17,6 +17,7 @@ namespace server {
 
 void connection_manager::start(connection_ptr c)
 {
+    // TODO Add a mutex here if needed.
     connections_.insert(c);
     c->start();
 }
@@ -30,7 +31,7 @@ void connection_manager::stop(connection_ptr c)
 void connection_manager::stop_all()
 {
     std::for_each(connections_.begin(), connections_.end(),
-        boost::bind(&connection::stop, _1));
+        boost::bind(&abstract_connection::stop, _1));
     connections_.clear();
 }
 

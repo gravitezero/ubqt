@@ -16,7 +16,8 @@
 #include <boost/noncopyable.hpp>
 #include <boost/thread.hpp> 
 
-#include "connection.hpp"
+#include "abstract_connection.hpp"
+#include "input_connection.hpp"
 #include "connection_manager.hpp"
 #include "request_handler.hpp"
 

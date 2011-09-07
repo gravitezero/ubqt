@@ -35,14 +35,10 @@ int main(int argc, char* argv[])
 
         // Run the server
         s.run();
-        
-        std::cout << "do whatever you want now" << std::endl;
-        
-        sleep(3);
-       
-        s.add_connection(new connection(io_service_, connection_manager_, request_handler_));
-        
-        
+
+        //sleep(3);
+        //s.add_connection(new connection(io_service_, connection_manager_, request_handler_));
+
         s.join();
 
     }
