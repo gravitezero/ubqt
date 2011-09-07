@@ -26,7 +26,7 @@ input_connection::input_connection(boost::asio::io_service& io_service,
 void input_connection::start()
 {
     socket_.async_read_some(boost::asio::buffer(buffer_),
-        boost::bind(&abstract_connection::handle_read, shared_from_this(),
+        boost::bind(&input_connection::handle_read, boost::enable_shared_from_this<input_connection>::shared_from_this(),
             boost::asio::placeholders::error,
                 boost::asio::placeholders::bytes_transferred));
 }
@@ -49,7 +49,7 @@ void input_connection::handle_read(const boost::system::error_code& e,
         {
             reply_ = request_handler_.handle_request(request_);
             boost::asio::async_write(socket_, reply_->to_buffers(),
-                boost::bind(&abstract_connection::handle_write, shared_from_this(),
+                boost::bind(&input_connection::handle_write, shared_from_this(),
                     boost::asio::placeholders::error));
         }
 
@@ -71,19 +71,18 @@ void input_connection::handle_read(const boost::system::error_code& e,
     }
     else if (e != boost::asio::error::operation_aborted)
     {
-        connection_manager_.stop(shared_from_this());
+        connection_manager_.stop(boost::enable_shared_from_this<input_connection>::shared_from_this());
     }
 }
 
 void input_connection::handle_write(const boost::system::error_code& e)
 {
-    // TODO reflechir a unifier handle_read et write en un unique handle qui suive le fil de la conversation entre les deux noeuds.
     if (reply_->still_data)
     {
         //request_handler_.handle_request(request_, reply_);
         
         boost::asio::async_write(socket_, reply_->to_buffers(),
-            boost::bind(&abstract_connection::handle_write, shared_from_this(),
+            boost::bind(&input_connection::handle_write, boost::enable_shared_from_this<input_connection>::shared_from_this(),
                 boost::asio::placeholders::error));
                 
         return;
@@ -98,7 +97,7 @@ void input_connection::handle_write(const boost::system::error_code& e)
 
     if (e != boost::asio::error::operation_aborted)
     {
-        connection_manager_.stop(shared_from_this());
+        connection_manager_.stop(boost::enable_shared_from_this<input_connection>::shared_from_this());
     }
 }
 

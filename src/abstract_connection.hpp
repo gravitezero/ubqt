@@ -50,11 +50,10 @@ protected:
         connection_manager& manager, request_handler& handler);
                 
     /// Handle completion of a read operation.
-    virtual void handle_read(const boost::system::error_code& e,
-      std::size_t bytes_transferred) = 0;
+    /*virtual void handle_read(const boost::system::error_code& e, std::size_t bytes_transferred) = 0;
 
     /// Handle completion of a write operation.
-    virtual void handle_write(const boost::system::error_code& e) = 0;
+    virtual void handle_write(const boost::system::error_code& e) = 0;*/
 
     /// Socket for the connection.
     boost::asio::ip::tcp::socket socket_;
