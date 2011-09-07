@@ -43,7 +43,7 @@ public:
     /// Stop all asynchronous operations associated with the connection.
     virtual void stop() = 0;
 
-//protected:
+protected:
 
     /// Construct a connection with the given io_service.
     explicit abstract_connection(boost::asio::io_service& io_service,

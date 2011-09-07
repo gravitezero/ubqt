@@ -43,7 +43,7 @@ public:
     /// Stop all asynchronous operations associated with the connection.
     void stop();
 
-//protected:
+protected:
     /// Handle completion of a read operation.
     void handle_read(const boost::system::error_code& e,
       std::size_t bytes_transferred);
