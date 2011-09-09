@@ -8,8 +8,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <iostream>
-
 #include "input_connection.hpp"
 #include <vector>
 #include <boost/bind.hpp>
@@ -27,8 +25,6 @@ input_connection::input_connection(boost::asio::io_service& io_service,
 
 void input_connection::start()
 {
-    std::cout << "start" << std::endl;
-    
     socket_.async_read_some(boost::asio::buffer(buffer_),
         boost::bind(&abstract_connection::handle_read, shared_from_this(),
             boost::asio::placeholders::error,
@@ -44,8 +40,6 @@ void input_connection::handle_read(const boost::system::error_code& e,
     std::size_t bytes_transferred)
 {
 
-    std::cout << "handle_read" << std::endl;    
-    
     if (!e)
     {
         boost::tribool result;
@@ -84,7 +78,6 @@ void input_connection::handle_read(const boost::system::error_code& e,
 
 void input_connection::handle_write(const boost::system::error_code& e)
 {
-    std::cout << "handle_write" << std::endl;
 
     if (reply_->still_data)
     {
