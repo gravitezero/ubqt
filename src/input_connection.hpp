@@ -30,8 +30,7 @@ class connection_manager;
 
 /// Represents a single connection from a client.
 class input_connection
-    : public abstract_connection,
-      public boost::enable_shared_from_this<input_connection>
+    : public abstract_connection
 {
 public:
     /// Construct a connection with the given io_service.

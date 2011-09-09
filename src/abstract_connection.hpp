@@ -43,17 +43,20 @@ public:
     /// Stop all asynchronous operations associated with the connection.
     virtual void stop() = 0;
 
+    // TODO this two members should NOT be public
+    // But I had some problem with boost::bind, boost::shared_ptr and inheritance in input_connection
+    // for more details, see here : http://stackoverflow.com/questions/7340830/boostbind-boostshared-ptr-and-inheritance/7365337
+    /// Handle completion of a read operation.
+    virtual void handle_read(const boost::system::error_code& e, std::size_t bytes_transferred) = 0;
+
+    /// Handle completion of a write operation.
+    virtual void handle_write(const boost::system::error_code& e) = 0;
+
 protected:
 
     /// Construct a connection with the given io_service.
     explicit abstract_connection(boost::asio::io_service& io_service,
         connection_manager& manager, request_handler& handler);
-                
-    /// Handle completion of a read operation.
-    /*virtual void handle_read(const boost::system::error_code& e, std::size_t bytes_transferred) = 0;
-
-    /// Handle completion of a write operation.
-    virtual void handle_write(const boost::system::error_code& e) = 0;*/
 
     /// Socket for the connection.
     boost::asio::ip::tcp::socket socket_;
