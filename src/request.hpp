@@ -18,10 +18,16 @@
 namespace node {
 namespace server {
 
+enum RequestCode {
+    GET_TABLE,
+    SUBMIT_VALUE,
+    REQUEST_VALUE
+};
+
 /// A request received from a client.
 struct request
 {
-    CommandCode command;
+    RequestCode request_;
     std::string value;
 };
 

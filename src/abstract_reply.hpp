@@ -19,6 +19,14 @@
 namespace node {
 namespace server {
 
+enum ReplyCode {
+    SEND_TABLE,
+    SEND_VALUE,
+    REFUSE_SENDING,
+    ACCEPT_RECEIVING,
+    REFUSE_RECEIVING
+};
+
 class abstract_reply;
 typedef boost::shared_ptr<abstract_reply> abstract_reply_ptr;
 
@@ -34,6 +42,8 @@ public:
 protected:
 
     abstract_reply();
+    
+    ReplyCode reply_;
 
 };
 
