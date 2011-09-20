@@ -45,8 +45,6 @@ public:
     
     void set_request(request req);
 
-    // TODO set socket destination address and port.
-
 protected:
     /// Handle completion of a read operation.
     void handle_read(const boost::system::error_code& e,
