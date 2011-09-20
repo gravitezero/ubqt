@@ -13,7 +13,6 @@
 
 #include <string>
 #include <vector>
-#include "protocole.hpp"
 
 namespace node {
 namespace server {
@@ -27,7 +26,7 @@ enum RequestCode {
 /// A request received from a client.
 struct request
 {
-    RequestCode request_;
+    RequestCode request_code_;
     std::string value;
 };
 

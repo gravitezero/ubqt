@@ -15,6 +15,7 @@
 #include <boost/lexical_cast.hpp>
 #include "communication_handler.hpp"
 #include "request.hpp"
+#include "abstract_reply.hpp"
 
 namespace node {
 namespace server {
@@ -31,17 +32,20 @@ abstract_reply_ptr communication_handler::handle_request(const request& req)
 { 
 
     // TODO Ici, check le meta switch
+    // Completement remplacer ce pattern :
+    // à la place, on appelle req pour faire le job.
+    // communication_handler n'est alors plus necessaire.
   
-      switch(req.command)
+      switch(req.request_code_)
       {  
           case GET_TABLE:
             return getTableHandle(req);
           
+          case REQUEST_VALUE:  
+            return requestValueHandle(req);
+          
           case SUBMIT_VALUE:
             return submitValueHandle(req);
-
-          case GET_VALUE:  
-            return requestValueHandle(req);
             
           case REGISTER_LISTENER:
             return registerListener(req);
@@ -54,28 +58,41 @@ abstract_reply_ptr communication_handler::handle_request(const request& req)
 
 request communication_handler::handle_reply(const reply& rep)
 {
-      switch(req.command)
+
+    // TODO make this intern of the reply.
+      switch(rep.reply_code_)
       {  
           case SEND_TABLE:
-            return getTableHandle(req);
+            return sendTableHandle(rep);
           
           case SEND_VALUE:
-            return sendValueHandle(req);
+            return sendValueHandle(rep);
 
           case REQUEST_VALUE:
-            return requestValueHandle(req);
+            return requestValueHandle(rep);
 
           case REFUSE_SUBMIT:
-            return refuseValueHandle(req);
-            
-          case REGISTER_LISTENER:
-            return registerListener(req);
+            return refuseValueHandle(rep);
 
           default:
-            return abstract_reply::create("BAD COMMAND REQUEST");
+            return abstract_reply::create("BAD COMMAND REPLY");
       
       }
 }
+
+/*
+getTableHandle(req);
+requestValueHandle(req);
+submitValueHandle(req);
+registerListener(req);
+
+sendTableHandle(rep);
+sendValueHandle(rep);
+requestValueHandle(rep);
+refuseValueHandle(rep);
+*/
+
+/// REQUEST HANDLER
 
 abstract_reply_ptr communication_handler::getTableHandle(const request& req)
 {
@@ -90,6 +107,12 @@ abstract_reply_ptr communication_handler::getTableHandle(const request& req)
     }
     
     return abstract_reply::create(files_name);
+}
+
+
+abstract_reply_ptr communication_handler::requestValueHandle(const request& req)
+{
+    return abstract_reply::create("protocole.hpp");
 }
 
 abstract_reply_ptr communication_handler::submitValueHandle(const request& rep)
@@ -119,21 +142,6 @@ abstract_reply_ptr communication_handler::submitValueHandle(const request& rep)
     return abstract_reply::create("Submited Value");
 }
 
-abstract_reply_ptr communication_handler::ackValueHandle(const request& req)
-{
-    return abstract_reply::create("Ack Value");
-}
-
-abstract_reply_ptr communication_handler::requestValueHandle(const request& req)
-{
-    return abstract_reply::create("protocole.hpp");
-}
-
-abstract_reply_ptr communication_handler::refuseValueHandle(const request& req)
-{
-    return abstract_reply::create("Refuse Value");
-}
-
 abstract_reply_ptr communication_handler::registerListener(const request& req)
 {
     // Let's say e have a handler for information, here we would actually register the listener in the database.
@@ -141,5 +149,28 @@ abstract_reply_ptr communication_handler::registerListener(const request& req)
     
     return abstract_reply::create("Register Listener");
 }
+
+/// REPLY HANDLER
+
+abstract_reply_ptr communication_handler::sendTableHandle(const request& req)
+{
+    return abstract_reply::create("Send Table");
+}
+
+abstract_reply_ptr communication_handler::sendValueHandle(const request& req)
+{
+    return abstract_reply::create("Send Value");
+}
+
+abstract_reply_ptr communication_handler::requestValueHandle(const request& req)
+{
+    return abstract_reply::create("Request Value");
+}
+
+abstract_reply_ptr communication_handler::refuseValueHandle(const request& req)
+{
+    return abstract_reply::create("Refuse Value");
+}
+
 } // namespace server
 } // namespace node

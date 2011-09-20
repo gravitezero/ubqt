@@ -38,12 +38,10 @@ public:
     static abstract_reply_ptr create(std::string content);
     
     bool still_data;
-
+    ReplyCode reply_code_; // TODO make this protected : the switch case will be implemented here.
 protected:
 
     abstract_reply();
-    
-    ReplyCode reply_;
 
 };
 
