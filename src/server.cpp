@@ -81,7 +81,7 @@ void server::handle_accept(const boost::system::error_code& e)
 
     if (!e)
     {
-        connection_manager_.start(new_connection_);
+        connection_manager_.start_read(new_connection_);
     }
 
     start_accept();
@@ -101,7 +101,7 @@ void server::add_connection(connection_ptr connection)
     // Here we want this connection start by sending something.
     // This new connection will herit from the legacy connection.
     // The legacy connection start by reading, this new connection will start by sending.
-    connection_manager_.start(connection);
+    connection_manager_.start_write(connection);
 }
 
 } // namespace server

@@ -30,7 +30,7 @@ boost::asio::ip::tcp::socket& connection::socket()
   return socket_;
 }
 
-void connection::start()
+void connection::start_read()
 {
     socket_.async_read_some(boost::asio::buffer(buffer_),
         boost::bind(&connection::handle_read, shared_from_this(),
@@ -38,12 +38,11 @@ void connection::start()
                 boost::asio::placeholders::bytes_transferred));
 }
 
-void connection::send_request(request req)
+void connection::start_write()
 {
-    /*request_ 
-    boost::asio::async_write(socket_, reply_->to_buffers(),
+    boost::asio::async_write(socket_, outcoming_->to_buffers(),
         boost::bind(&connection::handle_write, shared_from_this(),
-            boost::asio::placeholders::error)); */
+            boost::asio::placeholders::error));
 }
 
 void connection::stop()
@@ -92,7 +91,6 @@ void connection::handle_read(const boost::system::error_code& e,
 
 void connection::handle_write(const boost::system::error_code& e)
 {
-    // TODO reflechir a unifier handle_read et write en un unique handle qui suive le fil de la conversation entre les deux noeuds.
     if (reply_->still_data)
     {
         //request_handler_.handle_request(request_, reply_);

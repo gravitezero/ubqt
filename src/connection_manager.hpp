@@ -24,8 +24,11 @@ class connection_manager
     : private boost::noncopyable
 {
 public:
-    /// Add the specified connection to the manager and start it.
-    void start(connection_ptr c);
+    /// Add the specified incoming connection to the manager and start it.
+    void start_read(connection_ptr c);
+    
+    /// Add the specified outcoming connection to the manager and start it.
+    void start_write(connection_ptr c);    
 
     /// Stop the specified connection.
     void stop(connection_ptr c);

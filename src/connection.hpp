@@ -40,10 +40,10 @@ public:
     boost::asio::ip::tcp::socket& socket();
 
     /// Start the first asynchronous operation for the connection.
-    void start();
+    void start_read();
     
     /// Start the first asynchronous operation for the connection.
-    void send_request(request req);    
+    void start_write();
 
     /// Stop all asynchronous operations associated with the connection.
     void stop();
@@ -63,19 +63,16 @@ private:
     connection_manager& connection_manager_;
 
     /// The handler used to process the incoming request.
-    request_handler& request_handler_;
+    //request_handler& request_handler_;
 
     /// Buffer for incoming data.
     boost::array<char, 8192> buffer_;
 
-    /// The incoming request.
-    request request_;
+    /// The incoming message.
+    abstract_message_ptr incoming_;
 
-    /// The parser for the incoming request.
-    request_parser request_parser_;
-
-    /// The reply to be sent back to the client.
-    abstract_reply_ptr reply_;
+    /// The outcoming message.
+    abstract_message_ptr outcoming_;
 };
 
 typedef boost::shared_ptr<connection> connection_ptr;

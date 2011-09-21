@@ -15,11 +15,18 @@
 namespace node {
 namespace server {
 
-void connection_manager::start(connection_ptr c)
+void connection_manager::start_read(connection_ptr c)
 {
     // TODO Add a mutex here if needed.
     connections_.insert(c);
-    c->start();
+    c->start_read();
+}
+
+void connection_manager::start_write(connection_ptr c)
+{
+    // TODO Add a mutex here if needed.
+    connections_.insert(c);
+    c->start_write();
 }
 
 void connection_manager::stop(connection_ptr c)

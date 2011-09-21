@@ -24,8 +24,14 @@ enum RequestCode {
 };
 
 /// A request received from a client.
-struct request
+class request : public message
 {
+public:
+    request();
+    
+    std::vector<boost::asio::const_buffer> to_buffers();
+
+protected:
     RequestCode request_code_;
     std::string value;
 };

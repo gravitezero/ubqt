@@ -1,5 +1,5 @@
 //
-// request.cpp
+// reply_simple.cpp
 // ~~~~~~~~~
 //
 // Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
@@ -8,19 +8,25 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "request.hpp"
+#include "reply_simple.hpp"
 #include <string>
 #include <boost/lexical_cast.hpp>
 
 namespace node {
 namespace server {
 
-request::request()
-    : message()
+reply_simple::reply_simple(std::string content)
+    : abstract_reply(),
+      content(content)
 {
 }
 
-std::vector<boost::asio::const_buffer> request::to_buffers()
+void reply_simple::set_content(std::string content)
+{
+    content.append(content);
+}
+
+std::vector<boost::asio::const_buffer> reply_simple::to_buffers()
 {
     // TODO a ameliore grandement, parce que là c'est vraiment la merde.
     // La merde ! vous dis-je.
@@ -28,9 +34,8 @@ std::vector<boost::asio::const_buffer> request::to_buffers()
     static char buffer[300];
     std::vector<boost::asio::const_buffer> buffers;
 
-    buffers.push_bach(boost::asio::buffer(request_code_))
-    buffers.push_back(boost::asio::buffer(value));
-    still_data = false; // TODO still_data est un moyen vraiment tres mauvais de dire que la transaction est terminé.
+    buffers.push_back(boost::asio::buffer(content));
+    still_data = false; // TODO still_data est un moyen vraiment tres mauvais de dire que la transaction est terminé, vraiment tres mauvais.
 
     return buffers;
 }
