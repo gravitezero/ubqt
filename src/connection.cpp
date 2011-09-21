@@ -21,7 +21,9 @@ connection::connection(boost::asio::io_service& io_service,
     connection_manager& manager, request_handler& handler)
     : socket_(io_service),
     connection_manager_(manager),
-    request_handler_(handler)
+    communication_handler_(handler),
+    incoming(communication_handler_),
+    outcoming(communication_handler_)
 {
 }
 
@@ -55,16 +57,28 @@ void connection::handle_read(const boost::system::error_code& e,
 {
     if (!e)
     {
-        boost::tribool result;
-        boost::tie(result, boost::tuples::ignore) = request_parser_.parse(
-            request_, buffer_.data(), buffer_.data() + bytes_transferred);
+        boost::tribool result = incoming_->parse(
+            buffer_.data(), buffer_.data() + bytes_transferred);
 
         if (result)
         {
-            reply_ = request_handler_.handle_request(request_);
-            boost::asio::async_write(socket_, reply_->to_buffers(),
-                boost::bind(&connection::handle_write, shared_from_this(),
-                    boost::asio::placeholders::error));
+            if ( true == incoming_->handle(outcoming_) )
+            {// TODO changer pour quelque chose de plus propre
+                boost::asio::async_write(socket_, outcoming_->to_buffers(),
+                    boost::bind(&connection::handle_write, shared_from_this(),
+                        boost::asio::placeholders::error));
+            }
+            else
+            {
+                // Initiate graceful connection closure.
+                boost::system::error_code ignored_ec;
+                socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+                
+                    if (e != boost::asio::error::operation_aborted)
+                    {
+                        connection_manager_.stop(shared_from_this());
+                    }
+            }
         }
 
         // TODO prendre en charge les erreurs

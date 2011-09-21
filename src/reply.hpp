@@ -1,5 +1,5 @@
 //
-// reply_simple.hpp
+// reply.hpp
 // ~~~~~~~~~
 //
 // Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
@@ -8,8 +8,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef REPLY_SIMPLE_HPP
-#define REPLY_SIMPLE_HPP
+#ifndef REPLY_HPP
+#define REPLY_HPP
 
 #include <string>
 #include <vector>
@@ -32,11 +32,14 @@ enum ReplyCode {
 class reply : public message
 {
 public:
-    reply();
+    reply(communication_handler& handler);
+
+    
+    virtual int handle(message_ptr msg);
+    virtual int parse(char* begin, char* end);
 
     std::vector<boost::asio::const_buffer> to_buffers();
-    void set_content(std::string content);
-    
+        
 private:
     ReplyCode reply_code_;
     std::string value;
@@ -47,4 +50,4 @@ private:
 } // namespace server
 } // namespace node
 
-#endif // REPLY_FILE_HPP
+#endif // REPLY_HPP

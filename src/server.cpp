@@ -21,7 +21,7 @@ server::server(const std::string& address, const std::string& port, const std::s
       acceptor_(io_service_),
       connection_manager_(),
       new_connection_(),
-      request_handler_(root_path)
+      communication_handler_(root_path)
 {
     // Register to handle the signals that indicate when the server should exit.
     // It is safe to register for the same signal multiple times in a program,
@@ -42,7 +42,7 @@ server::server(const std::string& address, const std::string& port, const std::s
     acceptor_.bind(endpoint);
     acceptor_.listen();
 
-  start_accept();
+    start_accept();
 }
 
 void server::run()
@@ -63,8 +63,9 @@ void server::join()
 
 void server::start_accept()
 {
-    new_connection_.reset(new input_connection(io_service_,
-        connection_manager_, request_handler_));
+    // TODO il faut un pattern pour fabriquer 2 types de connections : listening, et writing.
+    new_connection_.reset(new connection(io_service_,
+        connection_manager_, communication_handler_));
     acceptor_.async_accept(new_connection_->socket(),
         boost::bind(&server::handle_accept, this,
             boost::asio::placeholders::error));

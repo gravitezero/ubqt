@@ -13,8 +13,9 @@
 namespace node {
 namespace server {
 
-message::message()
-: still_data(true)
+message::message(communication_handler& handler)
+    : still_data(true),
+      communication_handler_(handler)
 {
 }
 

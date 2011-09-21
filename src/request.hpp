@@ -27,7 +27,10 @@ enum RequestCode {
 class request : public message
 {
 public:
-    request();
+    request(communication_handler& handler);
+    
+    virtual int handle(message_ptr msg);
+    virtual int parse(char* begin, char* end);
     
     std::vector<boost::asio::const_buffer> to_buffers();
 

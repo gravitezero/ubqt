@@ -17,6 +17,8 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
+#include "communication_handler.hpp"
+
 namespace node {
 namespace server {
 
@@ -25,14 +27,17 @@ class message
       private boost::noncopyable
 {
 public:
-    virtual int handle(message_ptr msg) = 0;    
+    virtual int handle(message_ptr msg) = 0;  
+    virtual int parse(buffer_ptr buffer) = 0;  
     virtual std::vector<boost::asio::const_buffer> to_buffers() = 0;
     
     bool still_data;
 
 protected:
 
-    message();
+    message(communication_handler& handler);
+    
+    communication_handler& communication_handler_;
 
 };
 

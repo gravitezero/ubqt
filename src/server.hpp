@@ -18,7 +18,7 @@
 
 #include "connection.hpp"
 #include "connection_manager.hpp"
-#include "request_handler.hpp"
+#include "communication_handler.hpp"
 
 namespace node {
 namespace server {
@@ -36,6 +36,7 @@ public:
     /// Run the server's io_service loop.
     void run();
     
+    /// Wait for the server to ends.
     void join();
 
 private:
@@ -47,6 +48,9 @@ private:
 
     /// Handle a request to stop the server.
     void handle_stop();
+    
+    /// Add a new connection as a client.
+    void add_connection(connection_ptr connection);    
 
     /// The io_service used to perform asynchronous operations.
     boost::asio::io_service io_service_;
@@ -64,10 +68,9 @@ private:
     connection_ptr new_connection_;
 
     /// The handler for all incoming requests.
-    request_handler request_handler_;
+    communication_handler communication_handler_;
     
-    void add_connection(connection_ptr connection);
-    
+    /// The thread which executes IO_Service::run()
     boost::thread worker;
 };
 

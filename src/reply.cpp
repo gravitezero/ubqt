@@ -1,5 +1,5 @@
 //
-// reply_simple.cpp
+// reply.cpp
 // ~~~~~~~~~
 //
 // Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
@@ -8,25 +8,33 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "reply_simple.hpp"
+#include "reply.hpp"
 #include <string>
 #include <boost/lexical_cast.hpp>
 
 namespace node {
 namespace server {
 
-reply_simple::reply_simple(std::string content)
-    : abstract_reply(),
-      content(content)
+reply::reply(communication_handler& handler)
+    : message(communication_handler& handler)
 {
 }
 
-void reply_simple::set_content(std::string content)
+int reply::handle(message_ptr msg)
 {
-    content.append(content);
+    handler.handle_reply(msg, shared_from_this());
 }
 
-std::vector<boost::asio::const_buffer> reply_simple::to_buffers()
+int reply::parse(char* begin, char* end)
+{
+    reply_code_ = (ReplyCode)*buffer;
+    
+    // TODO à finir
+    
+    return true;
+}
+
+std::vector<boost::asio::const_buffer> reply::to_buffers()
 {
     // TODO a ameliore grandement, parce que là c'est vraiment la merde.
     // La merde ! vous dis-je.
