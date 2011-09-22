@@ -15,7 +15,7 @@
 #include <boost/lexical_cast.hpp>
 #include "communication_handler.hpp"
 #include "request.hpp"
-#include "abstract_reply.hpp"
+#include "reply.hpp"
 
 namespace node {
 namespace server {
@@ -28,7 +28,7 @@ communication_handler::communication_handler(const std::string& root_path)
 {
 }
 
-abstract_reply_ptr communication_handler::handle_request(const request& req)
+int communication_handler::handle_request(const request& req, reply& rep)
 { 
 
     // TODO Ici, check le meta switch
@@ -37,47 +37,51 @@ abstract_reply_ptr communication_handler::handle_request(const request& req)
     // communication_handler n'est alors plus necessaire.
   
       switch(req.request_code_)
-      {  
-          case GET_TABLE:
-            return getTableHandle(req);
-          
+      {
           case REQUEST_VALUE:  
-            return requestValueHandle(req);
-          
+            return requestValueHandle(req, rep);
+            
+          /*case GET_TABLE:
+            return getTableHandle(req, req);
+
           case SUBMIT_VALUE:
             return submitValueHandle(req);
             
           case REGISTER_LISTENER:
-            return registerListener(req);
+            return registerListener(req);*/
 
           default:
             return abstract_reply::create("BAD COMMAND REQUEST");
       
       }
+      
+      return 0;
 }
 
-request communication_handler::handle_reply(const reply& rep)
+int communication_handler::handle_reply(const reply& rep, request& req)
 {
 
     // TODO make this intern of the reply.
       switch(rep.reply_code_)
-      {  
-          case SEND_TABLE:
-            return sendTableHandle(rep);
-          
+      {
           case SEND_VALUE:
-            return sendValueHandle(rep);
+            return sendValueHandle(rep);   
+               
+          /*case SEND_TABLE:
+            return sendTableHandle(rep);
 
           case REQUEST_VALUE:
             return requestValueHandle(rep);
 
           case REFUSE_SUBMIT:
-            return refuseValueHandle(rep);
+            return refuseValueHandle(rep);*/
 
           default:
             return abstract_reply::create("BAD COMMAND REPLY");
       
       }
+      
+      return 0;
 }
 
 /*
@@ -94,6 +98,48 @@ refuseValueHandle(rep);
 
 /// REQUEST HANDLER
 
+int communication_handler::requestValueHandle(const request& req, reply& rep)
+{
+    rep.reply_code_ = SEND_VALUE;
+    rep.value.assign("42");
+
+    return 0;
+}
+
+int communication_handler::sendValueHandle(const reply& rep, request& req)
+{
+    std::cout << rep.value << std::endl;
+    
+    return -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 abstract_reply_ptr communication_handler::getTableHandle(const request& req)
 {
     std::string files_name;
@@ -107,12 +153,6 @@ abstract_reply_ptr communication_handler::getTableHandle(const request& req)
     }
     
     return abstract_reply::create(files_name);
-}
-
-
-abstract_reply_ptr communication_handler::requestValueHandle(const request& req)
-{
-    return abstract_reply::create("protocole.hpp");
 }
 
 abstract_reply_ptr communication_handler::submitValueHandle(const request& rep)
@@ -155,11 +195,6 @@ abstract_reply_ptr communication_handler::registerListener(const request& req)
 abstract_reply_ptr communication_handler::sendTableHandle(const request& req)
 {
     return abstract_reply::create("Send Table");
-}
-
-abstract_reply_ptr communication_handler::sendValueHandle(const request& req)
-{
-    return abstract_reply::create("Send Value");
 }
 
 abstract_reply_ptr communication_handler::requestValueHandle(const request& req)

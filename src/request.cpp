@@ -22,7 +22,7 @@ request::request(communication_handler& handler)
 
 int request::handle(message_ptr msg)
 {
-    handler.handle_request(msg, shared_from_this());
+    handler.handle_request(msg, this);
 }
 
 int request::parse(char* begin, char* end)

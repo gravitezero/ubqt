@@ -32,8 +32,8 @@ public:
     /// Construct with a directory containing files to be served.
     explicit communication_handler(const std::string& root_path);
 
-    abstract_reply_ptr handle_request(const request& req);
-    request handle_reply(const reply& rep); // TODO remplace request by a real object, and pass it by a shared_ptr
+    int handle_request(const request& req, reply_ptr rep);
+    int handle_reply(const reply& rep, request_ptr req);
 
 private:
 

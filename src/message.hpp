@@ -32,6 +32,8 @@ public:
     virtual std::vector<boost::asio::const_buffer> to_buffers() = 0;
     
     bool still_data;
+    
+    friend class communication_handler;    
 
 protected:
 

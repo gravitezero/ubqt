@@ -22,7 +22,7 @@ reply::reply(communication_handler& handler)
 
 int reply::handle(message_ptr msg)
 {
-    handler.handle_reply(msg, shared_from_this());
+    handler.handle_reply(msg, this);
 }
 
 int reply::parse(char* begin, char* end)
