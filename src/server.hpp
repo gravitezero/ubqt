@@ -38,6 +38,9 @@ public:
     
     /// Wait for the server to ends.
     void join();
+        
+    /// Add a new connection as a client.
+    void add_connection(std::string host, std::string port, RequestCode reqCode);    
 
 private:
     /// Initiate an asynchronous accept operation.
@@ -48,9 +51,6 @@ private:
 
     /// Handle a request to stop the server.
     void handle_stop();
-    
-    /// Add a new connection as a client.
-    void add_connection(connection_ptr connection);    
 
     /// The io_service used to perform asynchronous operations.
     boost::asio::io_service io_service_;

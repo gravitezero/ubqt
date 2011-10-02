@@ -97,11 +97,42 @@ void server::handle_stop()
     connection_manager_.stop_all();
 }
 
-void server::add_connection(connection_ptr connection)
+void server::add_connection(std::string host, std::string port, RequestCode reqCode)
 {
     // Here we want this connection start by sending something.
     // This new connection will herit from the legacy connection.
     // The legacy connection start by reading, this new connection will start by sending.
+    
+        
+    /// Make connection
+    connection_ptr connection = new connection(io_service_, connection_manager_, communication_handler_);
+    
+    /// Fill message
+    abstract_message_ptr req = new request(communication_handler_);
+    boost::array<char, 1> buffer;
+    buffer[0] = (char) reqCode; // TODO à changer pour un shared_ptr. message pointe vers le buffer, et le buffer contient les données.
+    
+    req->parse(buffer);
+    
+    connection->set_outcoming(req);
+    
+    /// Fill socket
+    boost::system::error_code error = boost::asio::error::host_not_found;
+    
+    tcp::resolver resolver(*io_service);
+    tcp::resolver::query query(host, port);
+    tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+    tcp::resolver::iterator end;
+    
+    while (error && endpoint_iterator != end)
+    {
+      connection->socket()->close();
+      connection->socket()->connect(*endpoint_iterator++, error);
+    }
+    if (error)
+      throw boost::system::system_error(error);
+
+    /// Start connection
     connection_manager_.start_write(connection);
 }
 

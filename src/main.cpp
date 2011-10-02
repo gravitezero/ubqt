@@ -37,7 +37,9 @@ int main(int argc, char* argv[])
         s.run();
 
         //sleep(3);
-        //s.add_connection(new connection(io_service_, connection_manager_, request_handler_));
+        
+        /// Start connection
+        s.add_connection(host, port, reqCode);
 
         s.join();
 

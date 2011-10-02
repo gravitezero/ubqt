@@ -37,6 +37,9 @@ public:
 
     /// Get the socket associated with the connection.
     boost::asio::ip::tcp::socket& socket();
+    
+    /// Get the outcoming message associated with the connection.
+    void set_outcoming(abstract_message_ptr request);
 
     /// Start the first asynchronous operation for the connection.
     void start_read();

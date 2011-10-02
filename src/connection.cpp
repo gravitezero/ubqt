@@ -32,6 +32,11 @@ boost::asio::ip::tcp::socket& connection::socket()
   return socket_;
 }
 
+abstract_message_ptr outcoming()
+{
+    return outcoming_;
+}
+
 void connection::start_read()
 {
     socket_.async_read_some(boost::asio::buffer(buffer_),
