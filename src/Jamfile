@@ -1,3 +1,3 @@
 SubDir TOP src ;
 
-Main node : main.cpp server.cpp request_handler.cpp request_parser.cpp abstract_connection.cpp input_connection.cpp connection_manager.cpp file_provider.cpp abstract_reply.cpp reply_file.cpp reply_simple.cpp ;
+Main node : main.cpp server.cpp connection.cpp communication_handler.cpp connection_manager.cpp file_provider.cpp message.cpp reply.cpp request.cpp ;

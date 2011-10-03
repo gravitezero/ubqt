@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 
+#include "message.hpp"
+
 namespace node {
 namespace server {
 
@@ -24,7 +26,8 @@ enum RequestCode {
 };
 
 /// A request received from a client.
-class request : public message
+class request
+    : public message
 {
 public:
     request(communication_handler& handler);

@@ -14,6 +14,7 @@
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 #include "server.hpp"
+#include "request.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
         //sleep(3);
         
         /// Start connection
-        s.add_connection(host, port, reqCode);
+        s.add_connection("localhost", "8080", node::server::REQUEST_VALUE);
 
         s.join();
 

@@ -29,7 +29,8 @@ enum ReplyCode {
     REFUSE_RECEIVING
 };
 
-class reply : public message
+class reply
+    : public message
 {
 public:
     reply(communication_handler& handler);

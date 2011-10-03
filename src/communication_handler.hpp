@@ -14,15 +14,17 @@
 #include <string>
 #include <boost/noncopyable.hpp>
 #include "file_provider.hpp"
-#include "request.hpp"
-#include "abstract_reply.hpp"
+//#include "message.hpp"
+//#include "request.hpp"
+//#include "reply.hpp"
 
 namespace node {
 namespace server {
 
-//struct reply;
-//class reply;
-struct request;
+class message;
+typedef boost::shared_ptr<message> message_ptr;
+class request;
+class reply;
 
 /// The common handler for all incoming requests.
 class communication_handler
@@ -32,17 +34,17 @@ public:
     /// Construct with a directory containing files to be served.
     explicit communication_handler(const std::string& root_path);
 
-    int handle_request(const request& req, reply_ptr rep);
-    int handle_reply(const reply& rep, request_ptr req);
+    int handle_request(const request& req, message_ptr rep);
+    int handle_reply(const reply& rep, message_ptr req);
 
 private:
 
-    abstract_reply_ptr getTableHandle(const request& req);
-    abstract_reply_ptr submitValueHandle(const request& req);
-    abstract_reply_ptr ackValueHandle(const request& req);
-    abstract_reply_ptr requestValueHandle(const request& req);
-    abstract_reply_ptr refuseValueHandle(const request& req);
-    abstract_reply_ptr registerListener(const request& req);
+    message_ptr getTableHandle(const request& req);
+    message_ptr submitValueHandle(const request& req);
+    message_ptr ackValueHandle(const request& req);
+    message_ptr requestValueHandle(const request& req);
+    message_ptr refuseValueHandle(const request& req);
+    message_ptr registerListener(const request& req);
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
     /// Point to the request to send.

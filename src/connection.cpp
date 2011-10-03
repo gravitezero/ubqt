@@ -12,18 +12,17 @@
 #include <vector>
 #include <boost/bind.hpp>
 #include "connection_manager.hpp"
-#include "request_handler.hpp"
 
 namespace node {
 namespace server {
 
 connection::connection(boost::asio::io_service& io_service,
-    connection_manager& manager, request_handler& handler)
+    connection_manager& manager, communication_handler& handler_)
     : socket_(io_service),
     connection_manager_(manager),
-    communication_handler_(handler),
-    incoming(communication_handler_),
-    outcoming(communication_handler_)
+    communication_handler_(handler_),
+    incoming_(communication_handler_),
+    outcoming_(communication_handler_)
 {
 }
 
@@ -32,7 +31,7 @@ boost::asio::ip::tcp::socket& connection::socket()
   return socket_;
 }
 
-abstract_message_ptr outcoming()
+message_ptr outcoming()
 {
     return outcoming_;
 }

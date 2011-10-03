@@ -24,6 +24,9 @@ namespace node {
 namespace server {
 
 class connection_manager;
+class connection;
+
+typedef boost::shared_ptr<connection> connection_ptr;
 
 /// Represents a single connection from a client.
 class connection
@@ -39,7 +42,7 @@ public:
     boost::asio::ip::tcp::socket& socket();
     
     /// Get the outcoming message associated with the connection.
-    void set_outcoming(abstract_message_ptr request);
+    void set_outcoming(message_ptr request);
 
     /// Start the first asynchronous operation for the connection.
     void start_read();
@@ -71,13 +74,11 @@ private:
     boost::array<char, 8192> buffer_;
 
     /// The incoming message.
-    abstract_message_ptr incoming_;
+    message_ptr incoming_;
 
     /// The outcoming message.
-    abstract_message_ptr outcoming_;
+    message_ptr outcoming_;
 };
-
-typedef boost::shared_ptr<connection> connection_ptr;
 
 } // namespace server
 } // namespace node

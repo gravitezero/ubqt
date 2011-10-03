@@ -105,35 +105,38 @@ void server::add_connection(std::string host, std::string port, RequestCode reqC
     
         
     /// Make connection
-    connection_ptr connection = new connection(io_service_, connection_manager_, communication_handler_);
+    connection* connection_ = new connection(io_service_, connection_manager_, communication_handler_);
     
     /// Fill message
-    abstract_message_ptr req = new request(communication_handler_);
-    boost::array<char, 1> buffer;
-    buffer[0] = (char) reqCode; // TODO à changer pour un shared_ptr. message pointe vers le buffer, et le buffer contient les données.
+    request* req = new request(communication_handler_);
+    boost::array<char, 1> buffer_;
+    buffer_[0] = (char) reqCode;
     
-    req->parse(buffer);
+    req->parse(buffer_.data(), buffer_.data() + buffer_.size());
     
-    connection->set_outcoming(req);
+    
+    message_ptr message_ptr_(dynamic_cast<message*>(req));
+    connection_->set_outcoming(message_ptr_); // TODO éviter le dynamic_cast ET les shared_ptr
     
     /// Fill socket
     boost::system::error_code error = boost::asio::error::host_not_found;
     
-    tcp::resolver resolver(*io_service);
-    tcp::resolver::query query(host, port);
-    tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
-    tcp::resolver::iterator end;
+    boost::asio::ip::tcp::resolver resolver(io_service_);
+    boost::asio::ip::tcp::resolver::query query(host, port);
+    boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+    boost::asio::ip::tcp::resolver::iterator end;
     
     while (error && endpoint_iterator != end)
     {
-      connection->socket()->close();
-      connection->socket()->connect(*endpoint_iterator++, error);
+      connection_->socket().close();
+      connection_->socket().connect(*endpoint_iterator++, error);
     }
     if (error)
       throw boost::system::system_error(error);
 
     /// Start connection
-    connection_manager_.start_write(connection);
+    connection_ptr connection_ptr_(connection_); //TODO supprimer les shared_ptr
+    connection_manager_.start_write(connection_ptr_);
 }
 
 } // namespace server

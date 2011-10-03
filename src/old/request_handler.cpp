@@ -27,7 +27,7 @@ request_handler::request_handler(const std::string& root_path)
 {
 }
 
-abstract_reply_ptr request_handler::handle_request(const request& req)
+message_ptr request_handler::handle_request(const request& req)
 { 
 
     // TODO Ici, check le meta switch
@@ -53,12 +53,12 @@ abstract_reply_ptr request_handler::handle_request(const request& req)
     return registerListener(req);
 
   default:
-    return abstract_reply::create("BAD COMMAND REQUEST");
+    return message::create("BAD COMMAND REQUEST");
   
   }
 }
 
-abstract_reply_ptr request_handler::getTableHandle(const request& req)
+message_ptr request_handler::getTableHandle(const request& req)
 {
     std::string files_name;
     std::vector<std::string> files = file_provider_.getListFile();
@@ -70,10 +70,10 @@ abstract_reply_ptr request_handler::getTableHandle(const request& req)
         files_name.append("\n");
     }
     
-    return abstract_reply::create(files_name);
+    return message::create(files_name);
 }
 
-abstract_reply_ptr request_handler::submitValueHandle(const request& rep)
+message_ptr request_handler::submitValueHandle(const request& rep)
 {
     /// here we should submit the value :
     /// 
@@ -97,30 +97,30 @@ abstract_reply_ptr request_handler::submitValueHandle(const request& rep)
 
     
     // Ack the new value.
-    return abstract_reply::create("Submited Value");
+    return message::create("Submited Value");
 }
 
-abstract_reply_ptr request_handler::ackValueHandle(const request& req)
+message_ptr request_handler::ackValueHandle(const request& req)
 {
-    return abstract_reply::create("Ack Value");
+    return message::create("Ack Value");
 }
 
-abstract_reply_ptr request_handler::requestValueHandle(const request& req)
+message_ptr request_handler::requestValueHandle(const request& req)
 {
-    return abstract_reply::create("protocole.hpp");
+    return message::create("protocole.hpp");
 }
 
-abstract_reply_ptr request_handler::refuseValueHandle(const request& req)
+message_ptr request_handler::refuseValueHandle(const request& req)
 {
-    return abstract_reply::create("Refuse Value");
+    return message::create("Refuse Value");
 }
 
-abstract_reply_ptr request_handler::registerListener(const request& req)
+message_ptr request_handler::registerListener(const request& req)
 {
     // Let's say e have a handler for information, here we would actually register the listener in the database.
     listeners.push_back(std::make_pair("localhost", "81"));
     
-    return abstract_reply::create("Register Listener");
+    return message::create("Register Listener");
 }
 } // namespace server
 } // namespace node

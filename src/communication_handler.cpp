@@ -138,7 +138,7 @@ int communication_handler::sendValueHandle(const reply& rep, request& req)
 
 
 
-
+/*
 
 abstract_reply_ptr communication_handler::getTableHandle(const request& req)
 {
@@ -174,7 +174,7 @@ abstract_reply_ptr communication_handler::submitValueHandle(const request& rep)
     ++information;
 
     for(std::vector<std::pair<std::string, std::string> >::iterator listener = listeners.begin(); listener != listeners.end(); ++listener) {
-        /* std::cout << *listener; ... */
+        // std::cout << *listener; ... 
     }
 
     
@@ -206,6 +206,6 @@ abstract_reply_ptr communication_handler::refuseValueHandle(const request& req)
 {
     return abstract_reply::create("Refuse Value");
 }
-
+*/
 } // namespace server
 } // namespace node
