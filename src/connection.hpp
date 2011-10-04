@@ -24,11 +24,15 @@ namespace node {
 namespace server {
 
 class connection_manager;
-class connection;
+template <class Incoming, class Outcoming> class connection;
 
-typedef boost::shared_ptr<connection> connection_ptr;
+//typedef boost::shared_ptr<connection> connection_ptr;
+
+typedef connection<request, reply> listening_connection;
+typedef connection<reply, request> client_connection;
 
 /// Represents a single connection from a client.
+template <class Incoming, class Outcoming>
 class connection
     : public boost::enable_shared_from_this<connection>,
       private boost::noncopyable
@@ -74,10 +78,10 @@ private:
     boost::array<char, 8192> buffer_;
 
     /// The incoming message.
-    message_ptr incoming_;
+    Incoming incoming_;
 
     /// The outcoming message.
-    message_ptr outcoming_;
+    Outcoming outcoming_;
 };
 
 } // namespace server

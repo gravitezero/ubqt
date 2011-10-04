@@ -64,8 +64,8 @@ void server::join()
 void server::start_accept()
 {
     // TODO il faut un pattern pour fabriquer 2 types de connections : listening, et writing.
-    new_connection_.reset(new connection(io_service_,
-        connection_manager_, communication_handler_));
+    //new_connection_.reset(new listening_connection(io_service_, connection_manager_, communication_handler_));
+    new_connection_ = new listening_connection(io_service_, connection_manager_, communication_handler_));   
     acceptor_.async_accept(new_connection_->socket(),
         boost::bind(&server::handle_accept, this,
             boost::asio::placeholders::error));
@@ -105,7 +105,7 @@ void server::add_connection(std::string host, std::string port, RequestCode reqC
     
         
     /// Make connection
-    connection* connection_ = new connection(io_service_, connection_manager_, communication_handler_);
+    connection* connection_ = new client_connection(io_service_, connection_manager_, communication_handler_);
     
     /// Fill message
     request* req = new request(communication_handler_);
@@ -114,9 +114,9 @@ void server::add_connection(std::string host, std::string port, RequestCode reqC
     
     req->parse(buffer_.data(), buffer_.data() + buffer_.size());
     
-    
     message_ptr message_ptr_(dynamic_cast<message*>(req));
     connection_->set_outcoming(message_ptr_); // TODO éviter le dynamic_cast ET les shared_ptr
+    // TODO changer set_outcoming pour outcoming(), et ensuite on travail le message reçu.
     
     /// Fill socket
     boost::system::error_code error = boost::asio::error::host_not_found;

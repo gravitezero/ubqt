@@ -66,7 +66,8 @@ private:
     connection_manager connection_manager_;
 
     /// The next connection to be accepted.
-    connection_ptr new_connection_;
+    //connection_ptr new_connection_;
+    listening_connection new_connection_;
 
     /// The handler for all incoming requests.
     communication_handler communication_handler_;
