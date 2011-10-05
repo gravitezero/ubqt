@@ -31,7 +31,7 @@ boost::asio::ip::tcp::socket& connection::socket()
   return socket_;
 }
 
-message_ptr outcoming()
+Outcoming outcoming()
 {
     return outcoming_;
 }

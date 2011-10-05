@@ -14,51 +14,30 @@
 
 namespace node {
 namespace server {
-/*
-void connection_manager::start_read(connection_ptr c)
+
+void connection_manager::start(listening_connection_ptr c)
 {
     // TODO Add a mutex here if needed.
-    connections_.insert(c);
+    listening_connections_.insert(c);
     c->start_read();
 }
 
-void connection_manager::start_write(connection_ptr c)
+void connection_manager::start(client_connection_ptr c)
 {
     // TODO Add a mutex here if needed.
-    connections_.insert(c);
-    c->start_write();
-}*/
-
-void connection_manager::start(listening_connection* c)
-{
-    // TODO Add a mutex here if needed.
-    connections_.insert(c);
-    c->start_read();
-}
-
-void connection_manager::start(client_connection* c)
-{
-    // TODO Add a mutex here if needed.
-    connections_.insert(c);
+    client_connections_.insert(c);
     c->start_write();
 }
-/*
-void connection_manager::stop(connection_ptr c)
-{
-    connections_.erase(c);
-    c->stop();
-}
-*/
 
-void connection_manager::stop(listening_connection* c)
+void connection_manager::stop(listening_connection_ptr c)
 {
-    connections_.erase(c);
+    listening_connections_.erase(c);
     c->stop();
 }
 
-void connection_manager::stop(client_connection* c)
+void connection_manager::stop(client_connection_ptr c)
 {
-    connections_.erase(c);
+    client_connections_.erase(c);
     c->stop();
 }
 

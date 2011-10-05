@@ -11,6 +11,7 @@
 #include "server.hpp"
 #include <boost/bind.hpp>
 #include <signal.h>
+#include <boost/shared_array.hpp>
 
 namespace node {
 namespace server {
@@ -64,8 +65,7 @@ void server::join()
 void server::start_accept()
 {
     // TODO il faut un pattern pour fabriquer 2 types de connections : listening, et writing.
-    //new_connection_.reset(new listening_connection(io_service_, connection_manager_, communication_handler_));
-    new_connection_ = new listening_connection(io_service_, connection_manager_, communication_handler_));   
+    new_connection_.reset(new listening_connection(io_service_, connection_manager_, communication_handler_));
     acceptor_.async_accept(new_connection_->socket(),
         boost::bind(&server::handle_accept, this,
             boost::asio::placeholders::error));
@@ -82,7 +82,7 @@ void server::handle_accept(const boost::system::error_code& e)
 
     if (!e)
     {
-        connection_manager_.start_read(new_connection_);
+        connection_manager_.start(new_connection_);
     }
 
     start_accept();
@@ -105,18 +105,18 @@ void server::add_connection(std::string host, std::string port, RequestCode reqC
     
         
     /// Make connection
-    connection* connection_ = new client_connection(io_service_, connection_manager_, communication_handler_);
+    client_connection_ptr connection_(new client_connection(io_service_, connection_manager_, communication_handler_));
     
     /// Fill message
-    request* req = new request(communication_handler_);
-    boost::array<char, 1> buffer_;
+    //request* req = new request(communication_handler_);
+    //request req = connection_->outcoming(); // TODO comment récupérer la référence de la requete pour la remplir ?
+    //shared_array(boost::array<char, 1>) buffer_( new boost::array<char, 1>); //TODO doit être alloué dynamiquement, pour sortir de ce scope.
+    // Peut être demander à request d'allouer lui-même ses buffer.
+    
+    char * buffer_ = new char[1];
     buffer_[0] = (char) reqCode;
     
-    req->parse(buffer_.data(), buffer_.data() + buffer_.size());
-    
-    message_ptr message_ptr_(dynamic_cast<message*>(req));
-    connection_->set_outcoming(message_ptr_); // TODO éviter le dynamic_cast ET les shared_ptr
-    // TODO changer set_outcoming pour outcoming(), et ensuite on travail le message reçu.
+    connection_->outcoming().parse(buffer_, (char*)(buffer_ + sizeof(buffer_)));
     
     /// Fill socket
     boost::system::error_code error = boost::asio::error::host_not_found;
@@ -134,9 +134,8 @@ void server::add_connection(std::string host, std::string port, RequestCode reqC
     if (error)
       throw boost::system::system_error(error);
 
-    /// Start connection
-    connection_ptr connection_ptr_(connection_); //TODO supprimer les shared_ptr
-    connection_manager_.start_write(connection_ptr_);
+    /// Start connection);
+    connection_manager_.start(connection_);
 }
 
 } // namespace server

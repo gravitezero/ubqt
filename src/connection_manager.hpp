@@ -24,21 +24,27 @@ class connection_manager
     : private boost::noncopyable
 {
 public:
-    /// Add the specified incoming connection to the manager and start it.
-    void start_read(connection_ptr c);
+    /// Add the specified listening connection to the manager and start it.
+    void start(listening_connection_ptr c);
     
-    /// Add the specified outcoming connection to the manager and start it.
-    void start_write(connection_ptr c);    
+    /// Add the specified client connection to the manager and start it.
+    void start(client_connection_ptr c);    
 
-    /// Stop the specified connection.
-    void stop(connection_ptr c);
+    /// Stop the specified listening connection.
+    void stop(listening_connection_ptr c);
+    
+    /// Stop the specified client connection.
+    void stop(client_connection_ptr c);
 
     /// Stop all connections.
     void stop_all();
 
 private:
     /// The managed connections.
-    std::set<connection*> connections_;
+    /// Listening connections
+    std::set<listening_connection_ptr> listening_connections_;
+    /// Client connections
+    std::set<client_connection_ptr> client_connections_;
 };
 
 } // namespace server
