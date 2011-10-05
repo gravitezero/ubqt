@@ -38,7 +38,7 @@ public:
 
 private:
     /// The managed connections.
-    std::set<connection_ptr> connections_;
+    std::set<connection*> connections_;
 };
 
 } // namespace server
