@@ -34,17 +34,22 @@ public:
     /// Construct with a directory containing files to be served.
     explicit communication_handler(const std::string& root_path);
 
-    int handle_request(const request& req, message_ptr rep);
-    int handle_reply(const reply& rep, message_ptr req);
+    int handle_request(request* const req, reply& rep);
+    int handle_reply(reply* const rep, request& req);
 
 private:
 
-    message_ptr getTableHandle(const request& req);
+    int requestValueHandle(const request& req, reply& rep);
+    int sendValueHandle(const reply& rep, request& req);
+    
+    
+    
+    /*message_ptr getTableHandle(const request& req);
     message_ptr submitValueHandle(const request& req);
     message_ptr ackValueHandle(const request& req);
     message_ptr requestValueHandle(const request& req);
     message_ptr refuseValueHandle(const request& req);
-    message_ptr registerListener(const request& req);
+    message_ptr registerListener(const request& req);*/
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
     /// Point to the request to send.

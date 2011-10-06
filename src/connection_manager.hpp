@@ -13,7 +13,8 @@
 
 #include <set>
 #include <boost/noncopyable.hpp>
-#include "connection.hpp"
+
+#include "connection.cpp"
 
 namespace node {
 namespace server {

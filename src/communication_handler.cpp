@@ -28,7 +28,7 @@ communication_handler::communication_handler(const std::string& root_path)
 {
 }
 
-int communication_handler::handle_request(const request& req, reply& rep)
+int communication_handler::handle_request(request* const req, reply& rep)
 { 
 
     // TODO Ici, check le meta switch
@@ -36,7 +36,7 @@ int communication_handler::handle_request(const request& req, reply& rep)
     // à la place, on appelle req pour faire le job.
     // communication_handler n'est alors plus necessaire.
   
-      switch(req.request_code_)
+      switch(req.request_code_) //TODO VISITOR PATTERN
       {
           case REQUEST_VALUE:  
             return requestValueHandle(req, rep);
@@ -50,22 +50,22 @@ int communication_handler::handle_request(const request& req, reply& rep)
           case REGISTER_LISTENER:
             return registerListener(req);*/
 
-          default:
-            return abstract_reply::create("BAD COMMAND REQUEST");
+          //default:
+            //return reply::create("BAD COMMAND REQUEST");  //TODO à reimplementer
       
       }
       
       return 0;
 }
 
-int communication_handler::handle_reply(const reply& rep, request& req)
+int communication_handler::handle_reply(reply* const rep, request& req) // TODO essayer de passer reply par reference, et non par pointeur.
 {
 
     // TODO make this intern of the reply.
       switch(rep.reply_code_)
       {
           case SEND_VALUE:
-            return sendValueHandle(rep);   
+            return sendValueHandle(rep, req);   
                
           /*case SEND_TABLE:
             return sendTableHandle(rep);
@@ -76,8 +76,8 @@ int communication_handler::handle_reply(const reply& rep, request& req)
           case REFUSE_SUBMIT:
             return refuseValueHandle(rep);*/
 
-          default:
-            return abstract_reply::create("BAD COMMAND REPLY");
+          //default:
+            //return reply::create("BAD COMMAND REPLY"); //TODO à reimplementer
       
       }
       

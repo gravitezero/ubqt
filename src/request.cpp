@@ -16,22 +16,22 @@ namespace node {
 namespace server {
 
 request::request(communication_handler& handler)
-    : message(communication_handler& handler)
+    : message(handler)
 {
 }
 
-int request::handle(message_ptr msg)
+int request::handle(reply& rep)
 {
-    handler.handle_request(msg, this);
+    communication_handler_.handle_request(this, rep);
 }
 
 int request::parse(char* begin, char* end)
 {
-    request_code_ = (RequestCode)*buffer;
+    request_code_ = (RequestCode)*begin;
     
-    If (request_code_ == GET_VALUE)
+    if (request_code_ == REQUEST_VALUE)
     {
-        value.assign(buffer, 1, end - begin); // TODO à changer, pas propre.
+        value.assign(begin, 1, end - begin); // TODO à changer, pas propre.
     }
     
     return true;
@@ -45,7 +45,7 @@ std::vector<boost::asio::const_buffer> request::to_buffers()
     static char buffer[300];
     std::vector<boost::asio::const_buffer> buffers;
 
-    buffers.push_back(boost::asio::buffer(request_code_))
+    //buffers.push_back(boost::asio::buffer((char)request_code_)) //TODO à corriger
     buffers.push_back(boost::asio::buffer(value));
     still_data = false; // TODO still_data est un moyen vraiment tres mauvais de dire que la transaction est terminé.
 

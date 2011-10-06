@@ -17,7 +17,7 @@
 #include <boost/thread.hpp> 
 #include <boost/shared_ptr.hpp>
 
-#include "connection.hpp"
+#include "connection.cpp"
 #include "connection_manager.hpp"
 #include "communication_handler.hpp"
 

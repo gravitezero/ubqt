@@ -22,15 +22,15 @@
 namespace node {
 namespace server {
 
-class message;
-typedef boost::shared_ptr<message> message_ptr;
+//class message;
+//typedef boost::shared_ptr<message> message_ptr;
 
 class message
     : public boost::enable_shared_from_this<message>,
       private boost::noncopyable
 {
 public:
-    virtual int handle(message_ptr msg) = 0;  
+    //virtual int handle(message_ptr msg) = 0;  
     virtual int parse(char* begin, char* end) = 0;  
     virtual std::vector<boost::asio::const_buffer> to_buffers() = 0;
     
@@ -41,7 +41,6 @@ public:
 protected:
 
     message(communication_handler& handler);
-    
     communication_handler& communication_handler_;
 
 };

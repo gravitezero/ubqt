@@ -32,12 +32,12 @@ class request
 public:
     request(communication_handler& handler);
     
-    virtual int handle(message_ptr msg);
+    int handle(reply& rep);
     virtual int parse(char* begin, char* end);
     
     std::vector<boost::asio::const_buffer> to_buffers();
 
-protected:
+//protected: // TODO VISITOR PATTERN
     RequestCode request_code_;
     std::string value;
 };

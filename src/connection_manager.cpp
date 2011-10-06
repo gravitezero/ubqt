@@ -8,9 +8,10 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "connection_manager.hpp"
 #include <algorithm>
 #include <boost/bind.hpp>
+
+#include "connection_manager.hpp"
 
 namespace node {
 namespace server {
@@ -43,9 +44,13 @@ void connection_manager::stop(client_connection_ptr c)
 
 void connection_manager::stop_all()
 {
-    std::for_each(connections_.begin(), connections_.end(),
-        boost::bind(&abstract_connection::stop, _1));
-    connections_.clear();
+    std::for_each(listening_connections_.begin(), listening_connections_.end(),
+        boost::bind(&listening_connection::stop, _1));
+    listening_connections_.clear();
+    
+    std::for_each(client_connections_.begin(), client_connections_.end(),
+        boost::bind(&client_connection::stop, _1));
+    client_connections_.clear();
 }
 
 } // namespace server

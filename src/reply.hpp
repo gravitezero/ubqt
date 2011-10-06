@@ -36,12 +36,12 @@ public:
     reply(communication_handler& handler);
 
     
-    virtual int handle(message_ptr msg);
+    int handle(request& req);
     virtual int parse(char* begin, char* end);
 
     std::vector<boost::asio::const_buffer> to_buffers();
         
-private:
+//private:
     ReplyCode reply_code_;
     std::string value;
         
