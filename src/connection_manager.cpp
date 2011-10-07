@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <boost/bind.hpp>
 
+#include "connection.cpp"
 #include "connection_manager.hpp"
 
 namespace node {

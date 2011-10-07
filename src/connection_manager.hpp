@@ -14,7 +14,7 @@
 #include <set>
 #include <boost/noncopyable.hpp>
 
-#include "connection.cpp"
+#include "connection_ptr.hpp"
 
 namespace node {
 namespace server {

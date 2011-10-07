@@ -1,5 +1,5 @@
 //
-// connection.hpp
+// connection.cpp
 // ~~~~~~~~~~~~~~
 //
 // Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
@@ -8,8 +8,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef CONNECTION_HPP
-#define CONNECTION_HPP
+#ifndef CONNECTION_CPP
+#define CONNECTION_CPP
 
 #include <boost/asio.hpp>
 #include <boost/array.hpp>
@@ -21,20 +21,13 @@
 
 #include "reply.hpp"
 #include "request.hpp"
-//#include "connection_manager.hpp"
+#include "connection_manager.hpp"
 #include "communication_handler.hpp"
+
+#include "connection_ptr.hpp"
 
 namespace node {
 namespace server {
-
-class connection_manager;
-template <class Incoming, class Outcoming> class connection;
-
-typedef connection<request, reply> listening_connection;
-typedef connection<reply, request> client_connection;
-
-typedef boost::shared_ptr<listening_connection> listening_connection_ptr;
-typedef boost::shared_ptr<client_connection> client_connection_ptr;
 
 /// Represents a single connection from a client.
 template <class Incoming, class Outcoming>
@@ -104,7 +97,7 @@ public:
       return socket_;
     }
 
-    Outcoming outcoming()
+    Outcoming& outcoming()
     {
         return outcoming_;
     }
@@ -112,7 +105,7 @@ public:
     void start_read()
     {
         socket_.async_read_some(boost::asio::buffer(buffer_),
-            boost::bind(&handle_read, this->shared_from_this(),
+            boost::bind(&connection<Incoming, Outcoming>::handle_read, this->shared_from_this(),
                 boost::asio::placeholders::error,
                     boost::asio::placeholders::bytes_transferred));
     }
@@ -120,7 +113,7 @@ public:
     void start_write()
     {
         boost::asio::async_write(socket_, outcoming_.to_buffers(),
-            boost::bind(&handle_write, this->shared_from_this(),
+            boost::bind(&connection<Incoming, Outcoming>::handle_write, this->shared_from_this(),
                 boost::asio::placeholders::error));
     }
 
@@ -142,7 +135,7 @@ public:
                 if ( true == incoming_.handle(outcoming_) )
                 {// TODO changer pour quelque chose de plus propre
                     boost::asio::async_write(socket_, outcoming_.to_buffers(),
-                        boost::bind(&handle_write, this->shared_from_this(),
+                        boost::bind(&connection<Incoming, Outcoming>::handle_write, this->shared_from_this(),
                             boost::asio::placeholders::error));
                 }
                 else
@@ -185,7 +178,7 @@ public:
         if (outcoming_.still_data)
         {
             boost::asio::async_write(socket_, outcoming_.to_buffers(),
-                boost::bind(&handle_write, this->shared_from_this(),
+                boost::bind(&connection<Incoming, Outcoming>::handle_write, this->shared_from_this(),
                     boost::asio::placeholders::error));
                     
             return;
@@ -209,5 +202,5 @@ public:
 } // namespace server
 } // namespace node
 
-#endif // CONNECTION_HPP
+#endif // CONNECTION_CPP
 

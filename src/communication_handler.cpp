@@ -36,7 +36,7 @@ int communication_handler::handle_request(request* const req, reply& rep)
     // à la place, on appelle req pour faire le job.
     // communication_handler n'est alors plus necessaire.
   
-      switch(req.request_code_) //TODO VISITOR PATTERN
+      switch(req->request_code_) //TODO VISITOR PATTERN
       {
           case REQUEST_VALUE:  
             return requestValueHandle(req, rep);
@@ -62,7 +62,7 @@ int communication_handler::handle_reply(reply* const rep, request& req) // TODO 
 {
 
     // TODO make this intern of the reply.
-      switch(rep.reply_code_)
+      switch(rep->reply_code_)
       {
           case SEND_VALUE:
             return sendValueHandle(rep, req);   
@@ -98,7 +98,7 @@ refuseValueHandle(rep);
 
 /// REQUEST HANDLER
 
-int communication_handler::requestValueHandle(const request& req, reply& rep)
+int communication_handler::requestValueHandle(const request* const req, reply& rep)
 {
     rep.reply_code_ = SEND_VALUE;
     rep.value.assign("42");
@@ -106,9 +106,9 @@ int communication_handler::requestValueHandle(const request& req, reply& rep)
     return 0;
 }
 
-int communication_handler::sendValueHandle(const reply& rep, request& req)
+int communication_handler::sendValueHandle(const reply* const rep, request& req)
 {
-    std::cout << rep.value << std::endl;
+    std::cout << rep->value << std::endl;
     
     return -1;
 }

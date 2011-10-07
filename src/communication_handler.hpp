@@ -39,8 +39,8 @@ public:
 
 private:
 
-    int requestValueHandle(const request& req, reply& rep);
-    int sendValueHandle(const reply& rep, request& req);
+    int requestValueHandle(const request* const req, reply& rep);
+    int sendValueHandle(const reply* const rep, request& req);
     
     
     
