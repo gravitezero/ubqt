@@ -28,6 +28,7 @@ int request::handle(reply& rep)
 int request::parse(char* begin, char* end)
 {
     request_code_ = (RequestCode)*begin;
+    std::cout << "received this shit : " << request_code_ << std::endl;
     
     if (request_code_ == REQUEST_VALUE)
     {
