@@ -28,11 +28,11 @@ int request::handle(reply& rep)
 int request::parse(char* begin, char* end)
 {
     request_code_ = (RequestCode)*begin;
-    std::cout << "received this shit : " << request_code_ << std::endl;
     
-    if (request_code_ == REQUEST_VALUE)
+    //if (request_code_ == REQUEST_VALUE)
     {
-        value.assign(begin, 1, end - begin); // TODO à changer, pas propre.
+        value.assign(begin, end - begin); // TODO à changer, pas propre.
+        std::cout << "value : " << value << std::endl;
     }
     
     return true;
@@ -49,7 +49,9 @@ std::vector<boost::asio::const_buffer> request::to_buffers()
     //buffers.push_back(boost::asio::buffer((char)request_code_)) //TODO à corriger
     buffers.push_back(boost::asio::buffer(value));
     still_data = false; // TODO still_data est un moyen vraiment tres mauvais de dire que la transaction est terminé.
-
+    
+    std::cout << "sending : " << value << std::endl;
+    
     return buffers;
 }
 

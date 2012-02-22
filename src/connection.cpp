@@ -125,8 +125,10 @@ public:
     void handle_read(const boost::system::error_code& e,
         std::size_t bytes_transferred)
     {
+    
+        std::cout << "byte transferred : " << bytes_transferred << std::endl;
         if (!e)
-        {
+        {   
             boost::tribool result = incoming_.parse(
                 buffer_.data(), buffer_.data() + bytes_transferred);
 
@@ -170,6 +172,7 @@ public:
         else if (e != boost::asio::error::operation_aborted)
         {
             connection_manager_.stop(this->shared_from_this());
+            std::cout << "got an error " << e << std::endl;
         }
     }
 
