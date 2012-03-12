@@ -113,10 +113,11 @@ void server::add_connection(std::string host, std::string port, RequestCode reqC
     //shared_array(boost::array<char, 1>) buffer_( new boost::array<char, 1>); //TODO doit être alloué dynamiquement, pour sortir de ce scope.
     // Peut être demander à request d'allouer lui-même ses buffer.
     
-    char * buffer_ = new char[1];
-    buffer_[0] = (char) reqCode;
-    
-    connection_->outcoming().parse(buffer_, (char*)(buffer_ + sizeof(buffer_)));
+    int size_ = 30;
+    char * buffer_ = new char[size_];
+    //buffer_[0] = (char) reqCode;
+    strcpy(buffer_, "the string I want to send");
+    connection_->outcoming().parse(buffer_, (char*)(buffer_ + size_));
     
     /// Fill socket
     boost::system::error_code error = boost::asio::error::host_not_found;

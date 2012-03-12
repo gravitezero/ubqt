@@ -18,6 +18,12 @@
 
 int main(int argc, char* argv[])
 {
+
+    std::string command;
+    std::string op;
+    std::string host;
+    std::string port;
+    
     try
     {
         // Check command line arguments.
@@ -36,6 +42,30 @@ int main(int argc, char* argv[])
 
         // Run the server
         s.run();
+        std::cout << "Running server\n";
+        
+        std::cout << "--------\n";
+        
+        do {            
+            op.clear();
+            std::cout << "1 add a connection : add host port\n";
+            std::cout << "2 quit\n\n";
+            
+            std::cin >> op;
+            
+            if ( op.compare("add") == 0 )
+            {
+                std::cin >> host >> port;
+                s.add_connection(host, port, node::server::REQUEST_VALUE);
+            }
+            
+            //std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+            //std::cin.clear();
+            host.clear();
+            port.clear();
+            
+        } while ( op.compare("quit") != 0 );
+        std::cout << "quitting\n\n";
 
         //sleep(3);
         
@@ -45,8 +75,10 @@ int main(int argc, char* argv[])
         std::cin >> c;
         std::cout << "Adding connection" << std::endl;
         /// Start connection
+
         s.add_connection("localhost", "8080", node::server::REQUEST_VALUE);
         std::cout << "Connection added" << std::endl;
+
         s.join();
 
     }
