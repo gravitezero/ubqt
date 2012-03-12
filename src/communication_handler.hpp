@@ -14,6 +14,7 @@
 #include <string>
 #include <boost/noncopyable.hpp>
 #include "file_provider.hpp"
+#include "data_manager.hpp"
 //#include "message.hpp"
 //#include "request.hpp"
 //#include "reply.hpp"
@@ -42,6 +43,8 @@ private:
     int requestValueHandle(const request* const req, reply& rep);
     int sendValueHandle(const reply* const rep, request& req);
     
+    data_manager data_manager_;
+    
     
     
     /*message_ptr getTableHandle(const request& req);
@@ -56,7 +59,7 @@ private:
     //request& request_;
     
     /// Provide an access to the files to send.
-    file_provider file_provider_;
+    //file_provider file_provider_;
 
 };
 

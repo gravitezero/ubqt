@@ -24,7 +24,7 @@ std::vector<std::pair<std::string, std::string> > listeners;
 int information = 0;
 
 communication_handler::communication_handler(const std::string& root_path)
-    : file_provider_(root_path)
+    : data_manager_()
 {
 }
 
@@ -112,14 +112,6 @@ int communication_handler::sendValueHandle(const reply* const rep, request& req)
     
     return -1;
 }
-
-
-
-
-
-
-
-
 
 
 
