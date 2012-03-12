@@ -39,9 +39,14 @@ int main(int argc, char* argv[])
 
         //sleep(3);
         
+        std::cout << "Request Value" << std::endl;
+        
+        char c;
+        std::cin >> c;
+        std::cout << "Adding connection" << std::endl;
         /// Start connection
         s.add_connection("localhost", "8080", node::server::REQUEST_VALUE);
-
+        std::cout << "Connection added" << std::endl;
         s.join();
 
     }
