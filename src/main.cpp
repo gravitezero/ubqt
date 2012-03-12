@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
         //sleep(3);
         
         /// Start connection
-        //s.add_connection("localhost", "8080", node::server::REQUEST_VALUE);
+        s.add_connection("localhost", "8080", node::server::REQUEST_VALUE);
 
         s.join();
 

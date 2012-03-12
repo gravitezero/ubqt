@@ -29,7 +29,7 @@ public:
     void start(listening_connection_ptr c);
     
     /// Add the specified client connection to the manager and start it.
-    void start(client_connection_ptr c);    
+    void start(client_connection_ptr c);
 
     /// Stop the specified listening connection.
     void stop(listening_connection_ptr c);
