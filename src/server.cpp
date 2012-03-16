@@ -16,13 +16,23 @@
 namespace node {
 namespace server {
 
-server::server(const std::string& address, const std::string& port, const std::string& root_path)
+/*server* server::instance = NULL;
+
+server* server::get_instance(const std::string& address, const std::string& port)
+{
+    if (!instance_)   // Only allow one instance of class to be generated.
+        instance_ = new server(address, port);
+    
+    return instance_;
+}*/
+
+server::server(const std::string& address, const std::string& port)
     : io_service_(),
       signals_(io_service_),
       acceptor_(io_service_),
       connection_manager_(),
       new_connection_(),
-      communication_handler_(root_path)
+      communication_handler_()
 {
     // Register to handle the signals that indicate when the server should exit.
     // It is safe to register for the same signal multiple times in a program,

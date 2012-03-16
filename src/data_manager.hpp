@@ -12,32 +12,50 @@
 #define DATA_MANAGER_HPP
 
 #include <string>
+#include <map>
 #include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/thread.hpp> 
-#include <boost/shared_ptr.hpp>
+//#include "server.hpp"
 
-#include "connection.cpp"
-#include "connection_manager.hpp"
-#include "communication_handler.hpp"
 
 namespace node {
 namespace server {
 
+class server;
+
+typedef void (*callback)(void);
+typedef std::pair<unsigned int, callback> callback_pair;
+
 /// data_manager
 class data_manager
-    : private boost::noncopyable
 {
-    public
+    public:
+    
+        static data_manager* get_instance();
+    
+        void set_server(server& srv);
+        
+        int register_listener(callback clbk);
+        
+        int remove_listener(int id);
+    
         int get_data( int id, std::string& data);
         
         int append_data( int id, std::string data );
         
-    private
-        server server_;
+    private:        
+        data_manager();
+        data_manager(data_manager const&){};
+        data_manager& operator=(data_manager const&){};
+        
+        static data_manager* instance_;
         
         /// for debugging purpose, instead of a database, we use a single string to hold information.
         std::string data_;
+        
+        std::map<unsigned int, callback> callback_;
+        unsigned int ticket;
+        server *server_;
 };
 
 } // namespace server

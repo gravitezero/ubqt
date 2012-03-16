@@ -17,7 +17,7 @@
 #include <boost/thread.hpp> 
 #include <boost/shared_ptr.hpp>
 
-#include "connection.cpp"
+#include "connection.hpp"
 #include "connection_manager.hpp"
 #include "communication_handler.hpp"
 
@@ -31,8 +31,10 @@ class server
 public:
     /// Construct the server to listen on the specified TCP address and port,
     /// and serve up files from the given directory.
-    explicit server(const std::string& address, const std::string& port,
-        const std::string& root_path);
+    explicit server(const std::string& address, const std::string& port);
+    
+    /// get instance of the singleton
+    //static server* get_instance(const std::string& address, const std::string& port);
 
     /// Run the server's io_service loop.
     void run();
@@ -44,6 +46,10 @@ public:
     void add_connection(std::string host, std::string port, RequestCode reqCode);    
 
 private:
+    
+    //server(server const&){};
+    //server& operator=(server const&){};
+    
     /// Initiate an asynchronous accept operation.
     void start_accept();
 
@@ -73,6 +79,8 @@ private:
     
     /// The thread which executes IO_Service::run()
     boost::thread worker;
+    
+    //static server* instance_;
 };
 
 } // namespace server

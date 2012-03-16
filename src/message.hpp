@@ -1,8 +1,8 @@
 //
 // message.hpp
-// ~~~~~~~~~
+// ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2011 Etienne Brodu (etienne dot brodu at insa-lyon dot fr)
+// Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,38 +11,25 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
 
-#include <string>
 #include <vector>
-#include <fstream>
-#include <boost/asio.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
-#include "communication_handler.hpp"
+#include <boost/asio.hpp>
+
+typedef std::vector<void*> ptr_vector;
 
 namespace node {
 namespace server {
 
-//class message;
-//typedef boost::shared_ptr<message> message_ptr;
+class message {
 
-class message
-    : public boost::enable_shared_from_this<message>,
-      private boost::noncopyable
-{
-public:
-    //virtual int handle(message_ptr msg) = 0;  
-    virtual int parse(char* begin, char* end) = 0;  
-    virtual std::vector<boost::asio::const_buffer> to_buffers() = 0;
+    public:
+        message(unsigned int op_code, ptr_vector arguments);
+        
+        boost::asio::const_buffer to_buffer();
     
-    bool still_data;
-    
-    friend class communication_handler;    
-
-protected:
-
-    message(communication_handler& handler);
-    communication_handler& communication_handler_;
-
+    protected:
+        unsigned int op_code_;
+        ptr_vector arguments_;
 };
 
 } // namespace server

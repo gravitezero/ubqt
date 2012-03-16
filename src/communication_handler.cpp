@@ -23,9 +23,9 @@ namespace server {
 std::vector<std::pair<std::string, std::string> > listeners;
 int information = 0;
 
-communication_handler::communication_handler(const std::string& root_path)
-    : data_manager_()
+communication_handler::communication_handler()
 {
+    data_manager_ = data_manager::get_instance();
 }
 
 int communication_handler::handle_request(request* const req, reply& rep)
@@ -100,15 +100,19 @@ refuseValueHandle(rep);
 
 int communication_handler::requestValueHandle(const request* const req, reply& rep)
 {
+    std::string str;
     rep.reply_code_ = SEND_VALUE;
-    rep.value.assign("42");
-
+    data_manager_.get_data(str&);
+    rep.value = str;
+    //rep.value.assign("42");
+    
     return 0;
 }
 
 int communication_handler::sendValueHandle(const reply* const rep, request& req)
 {
-    std::cout << rep->value << std::endl;
+    data_manager_.append_data(rep->value);
+    //std::cout << rep->value << std::endl;
     
     return -1;
 }

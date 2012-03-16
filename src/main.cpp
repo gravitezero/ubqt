@@ -14,22 +14,18 @@
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 #include "server.hpp"
+#include "data_manager.hpp"
 #include "request.hpp"
 
 int main(int argc, char* argv[])
 {
 
-    std::string command;
-    std::string op;
-    std::string host;
-    std::string port;
-    
     try
     {
         // Check command line arguments.
-        if (argc != 4)
+        if (argc != 3)
             {
-                std::cerr << "Usage: server <address> <port> <path>\n";
+                std::cerr << "Usage: server <address> <port>\n";
                 std::cerr << "  For IPv4, try:\n";
                 std::cerr << "    receiver 0.0.0.0 80 .\n";
                 std::cerr << "  For IPv6, try:\n";
@@ -37,48 +33,53 @@ int main(int argc, char* argv[])
                 return 1;
             }
 
+        // Initialise the data_manager
+        node::server::data_manager * mgr = node::server::data_manager::get_instance();
+
         // Initialise the server.
-        node::server::server s(argv[1], argv[2], argv[3]);
+        node::server::server s(argv[1], argv[2]);
+        
+        mgr->set_server(s);
 
         // Run the server
         s.run();
         std::cout << "Running server\n";
-        
         std::cout << "--------\n";
+        
+        std::string op;
         
         do {            
             op.clear();
-            std::cout << "1 add a connection : add host port\n";
-            std::cout << "2 quit\n\n";
+            std::cout << "get data : get host port\n";
+            std::cout << "view data : view\n";
+            std::cout << "append to data : append\n";
+            std::cout << "quit\n\n";
             
             std::cin >> op;
             
-            if ( op.compare("add") == 0 )
+            if ( op.compare("get") == 0 )
             {
+                std::string host,port;
                 std::cin >> host >> port;
                 s.add_connection(host, port, node::server::REQUEST_VALUE);
             }
-            
-            //std::cin.ignore(std::numeric_limits<std::streamsize>::max());
-            //std::cin.clear();
-            host.clear();
-            port.clear();
+            else if ( op.compare("view") == 0)
+            {
+                std::string buffer;
+                mgr->get_data(0, buffer);
+                std::cout << buffer << std::endl << std::endl;
+            }
+            else if ( op.compare("append") == 0)
+            {
+                std::string buffer;
+                std::cin >> buffer;
+                mgr->append_data(0, buffer);
+                std::cout << std::endl;
+            }
             
         } while ( op.compare("quit") != 0 );
         std::cout << "quitting\n\n";
-
-        //sleep(3);
         
-        std::cout << "Request Value" << std::endl;
-        
-        char c;
-        std::cin >> c;
-        std::cout << "Adding connection" << std::endl;
-        /// Start connection
-        s.add_connection("localhost", "8080", node::server::REQUEST_VALUE);
-        std::cout << "Connection added" << std::endl;
-
-
         s.join();
 
     }

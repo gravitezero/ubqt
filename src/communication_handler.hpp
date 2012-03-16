@@ -13,11 +13,7 @@
 
 #include <string>
 #include <boost/noncopyable.hpp>
-#include "file_provider.hpp"
 #include "data_manager.hpp"
-//#include "message.hpp"
-//#include "request.hpp"
-//#include "reply.hpp"
 
 namespace node {
 namespace server {
@@ -33,7 +29,7 @@ class communication_handler
 {
 public:
     /// Construct with a directory containing files to be served.
-    explicit communication_handler(const std::string& root_path);
+    explicit communication_handler();
 
     int handle_request(request* const req, reply& rep);
     int handle_reply(reply* const rep, request& req);
@@ -41,10 +37,7 @@ public:
 private:
 
     int requestValueHandle(const request* const req, reply& rep);
-    int sendValueHandle(const reply* const rep, request& req);
-    
-    data_manager data_manager_;
-    
+    int sendValueHandle(const reply* const rep, request& req);    
     
     
     /*message_ptr getTableHandle(const request& req);
@@ -55,11 +48,11 @@ private:
     message_ptr registerListener(const request& req);*/
     // TODO Add here some others request handler like add a listener, remove a listener etc...
 
-    /// Point to the request to send.
+    /// Point to the request to send.	
     //request& request_;
     
-    /// Provide an access to the files to send.
-    //file_provider file_provider_;
+    /// Provide an access to the data to send.
+    data_manager *data_manager_;
 
 };
 
