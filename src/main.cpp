@@ -29,15 +29,18 @@ int main(int argc, char* argv[])
                 return 1;
             }
 
+            boost::asio::io_service io_service_;
+
             // Initialise the server.
-            node::server::server s(argv[1], argv[2], argv[3]);
+            //node::server::server s(argv[1], argv[2], argv[3]);
 
             // Run the server until stopped.
-            s.run();
-            }
-                catch (std::exception& e)
-            {
-            std::cerr << "exception: " << e.what() << "\n";
+            //s.run();
+        std::cout << "node\n";    
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "exception: " << e.what() << "\n";
     }
 
     return 0;

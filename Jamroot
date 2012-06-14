@@ -1,0 +1,11 @@
+constant VERSION : 0.1 ;
+
+project ubqt
+	: requirements
+	  <threading>multi
+	  <linkflags>-lpthread
+	  <linkflags>-lboost_system
+	: build-dir bin
+	;	
+
+build-project src ;
