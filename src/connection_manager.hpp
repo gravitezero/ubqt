@@ -14,7 +14,7 @@
 #include <set>
 #include <boost/noncopyable.hpp>
 
-#include "connection_ptr.hpp"
+#include "connection.hpp"
 
 namespace node {
 namespace server {
@@ -26,16 +26,16 @@ class connection_manager
 {
 public:
     /// Add the specified listening connection to the manager and start it.
-    void start(listening_connection_ptr c);
+    void start(connection & c);
     
     /// Add the specified client connection to the manager and start it.
-    void start(client_connection_ptr c);
+    void start(connection & c);
 
     /// Stop the specified listening connection.
-    void stop(listening_connection_ptr c);
+    void stop(connection & c);
     
     /// Stop the specified client connection.
-    void stop(client_connection_ptr c);
+    void stop(connection & c);
 
     /// Stop all connections.
     void stop_all();
@@ -43,9 +43,9 @@ public:
 private:
     /// The managed connections.
     /// Listening connections
-    std::set<listening_connection_ptr> listening_connections_;
+    std::set<connection&> listening_connections_;
     /// Client connections
-    std::set<client_connection_ptr> client_connections_;
+    std::set<connection&> client_connections_;
 };
 
 } // namespace server

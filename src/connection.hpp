@@ -19,12 +19,13 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-#include "reply.hpp"
-#include "request.hpp"
+//#include "reply.hpp"
+//#include "request.hpp"
+#include "message.hpp"
 #include "connection_manager.hpp"
 #include "communication_handler.hpp"
 
-#include "connection_ptr.hpp"
+#include "connection.hpp"
 
 namespace node {
 namespace server {

@@ -15,7 +15,7 @@
 #include <boost/thread.hpp>
 #include "server.hpp"
 #include "data_manager.hpp"
-#include "request.hpp"
+#include "message.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -24,14 +24,14 @@ int main(int argc, char* argv[])
     {
         // Check command line arguments.
         if (argc != 3)
-            {
-                std::cerr << "Usage: server <address> <port>\n";
-                std::cerr << "  For IPv4, try:\n";
-                std::cerr << "    receiver 0.0.0.0 80 .\n";
-                std::cerr << "  For IPv6, try:\n";
-                std::cerr << "    receiver 0::0 80 .\n";
-                return 1;
-            }
+        {
+            std::cerr << "Usage: server <address> <port>\n";
+            std::cerr << "  For IPv4, try:\n";
+            std::cerr << "    receiver 0.0.0.0 80 .\n";
+            std::cerr << "  For IPv6, try:\n";
+            std::cerr << "    receiver 0::0 80 .\n";
+            return 1;
+        }
 
         // Initialise the data_manager
         node::server::data_manager * mgr = node::server::data_manager::get_instance();
@@ -78,6 +78,7 @@ int main(int argc, char* argv[])
             }
             
         } while ( op.compare("quit") != 0 );
+
         std::cout << "quitting\n\n";
         
         s.join();

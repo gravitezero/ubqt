@@ -7,16 +7,18 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
+
+#include "connection.hpp"
+
 namespace node {
 namespace server {
     
-    connection::connection(boost::asio::io_service& io_service,
-    connection_manager& manager, communication_handler& handler_)
+    connection::connection(boost::asio::io_service& io_service, connection_manager& manager, communication_handler& handler_)
     : socket_(io_service),
-    connection_manager_(manager),
-    communication_handler_(handler_),
-    incoming_(communication_handler_),
-    outcoming_(communication_handler_)
+      connection_manager_(manager),
+      communication_handler_(handler_),
+      incoming_(communication_handler_),
+      outcoming_(communication_handler_)
     {
     }
 
@@ -34,7 +36,7 @@ namespace server {
     {
         // TODO maybe getting the buffer from the message could avoid copying data to the message
         socket_.async_read_some(boost::asio::buffer(buffer_),
-            boost::bind(&connection<Incoming, Outcoming>::handle_read, this->shared_from_this(),
+            boost::bind(&connection::handle_read, this->shared_from_this(),
                 boost::asio::placeholders::error,
                     boost::asio::placeholders::bytes_transferred));
     }
@@ -42,7 +44,7 @@ namespace server {
     void connection::start_write()
     {
         boost::asio::async_write(socket_, outcoming_.to_buffers(),
-            boost::bind(&connection<Incoming, Outcoming>::handle_write, this->shared_from_this(),
+            boost::bind(&connection::handle_write, this->shared_from_this(),
                 boost::asio::placeholders::error));
     }
 
@@ -67,7 +69,7 @@ namespace server {
                 if ( true == incoming_.handle(outcoming_) )
                 {// TODO changer pour quelque chose de plus propre
                     boost::asio::async_write(socket_, outcoming_.to_buffers(),
-                        boost::bind(&connection<Incoming, Outcoming>::handle_write, this->shared_from_this(),
+                        boost::bind(&connection::handle_write, this->shared_from_this(),
                             boost::asio::placeholders::error));
                 }
                 else

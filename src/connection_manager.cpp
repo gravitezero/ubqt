@@ -17,27 +17,27 @@
 namespace node {
 namespace server {
 
-void connection_manager::start(listening_connection_ptr c)
+void connection_manager::start(connection& c)
 {
     // TODO Add a mutex here if needed.
     listening_connections_.insert(c);
     c->start_read();
 }
 
-void connection_manager::start(client_connection_ptr c)
+void connection_manager::start(connection& c)
 {
     // TODO Add a mutex here if needed.
     client_connections_.insert(c);
     c->start_write();
 }
 
-void connection_manager::stop(listening_connection_ptr c)
+void connection_manager::stop(connection& c)
 {
     listening_connections_.erase(c);
     c->stop();
 }
 
-void connection_manager::stop(client_connection_ptr c)
+void connection_manager::stop(connection& c)
 {
     client_connections_.erase(c);
     c->stop();
