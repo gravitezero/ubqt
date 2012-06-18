@@ -1,3 +1,8 @@
-SubDir TOP src ;
+exe ubqt
+	: [ glob *.cpp ]
+    ; 
 
-Main node : main.cpp server.cpp connection.cpp communication_handler.cpp connection_manager.cpp data_manager.cpp message.cpp reply.cpp request.cpp ;
+
+#TODO use <define> to differentiate between debug and release
+
+# server.cpp request_handler.cpp request_parser.cpp connection.cpp connection_manager.cpp file_provider.cpp abstract_reply.cpp reply_file.cpp reply_simple.cpp ;
