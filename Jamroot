@@ -5,6 +5,7 @@ project ubqt
 	  <threading>multi
 	  <linkflags>-lpthread
 	  <linkflags>-lboost_system
+	  <linkflags>-lboost_filesystem
 	: build-dir bin
 	;	
 
